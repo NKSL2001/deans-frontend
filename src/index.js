@@ -1,13 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import "src/styles/app.scss";
-import "src/styles/normalize.scss";
+import PageHome from 'src/PageHome';
+
+import 'src/styles/app.scss';
+import "antd/dist/antd.css";
+import 'src/styles/normalize.scss';
 
 const App = () => (
   <div>
-    Hello, world!
+    <PageHome />
   </div>
 );
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'));
