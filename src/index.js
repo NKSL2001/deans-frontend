@@ -1,16 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import PageHome from 'src/PageHome';
+import * as ROUTES from "src/routes";
+import PageHome from "src/PageHome";
+import PageReport from "src/PageReport";
+import PageLogin from "src/PageLogin";
 
-import 'src/styles/app.scss';
+import "src/styles/app.scss";
 import "antd/dist/antd.css";
-import 'src/styles/normalize.scss';
+// import "src/styles/normalize.scss";
 
 const App = () => (
-  <div>
-    <PageHome />
-  </div>
+  <Router>
+    <Switch>
+      <Route exact path={ROUTES.ROUTE_HOME} component={PageHome} />
+      <Route exact path={ROUTES.ROUTE_REPORT} component={PageReport} />
+      <Route exact path={ROUTES.ROUTE_LOGIN} component={PageLogin} />
+      {/* add a 404 page */}
+      <Route path={"/"} component={PageHome} />
+    </Switch>
+  </Router>
 );
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById("app"));

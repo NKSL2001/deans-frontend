@@ -9,3 +9,5 @@
 2. Run on a development server
 
 `$ yarn start`
+
+3. The development server runs on `localhost:3000`
