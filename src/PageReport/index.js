@@ -139,7 +139,7 @@ class IncidentReportForm extends React.Component {
           {...formItemLayout}
           label={
             <span>
-              Name&nbsp;
+              Your Name&nbsp;
               <Tooltip title="Your real name">
                 <Icon type="question-circle-o" />
               </Tooltip>
@@ -177,52 +177,33 @@ class IncidentReportForm extends React.Component {
             ]
           })(<Input />)}
         </FormItem>
-        {/* <FormItem {...formItemLayout} label="E-mail">
-          {getFieldDecorator("email", {
-            rules: [
-              {
-                type: "email",
-                message: "The input is not valid E-mail!"
-              },
-              {
-                required: true,
-                message: "Please input your E-mail!"
-              }
-            ]
-          })(<Input />)}
-        </FormItem> */}
-        {/* <FormItem {...formItemLayout} label="Password">
-          {getFieldDecorator("password", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your password!"
-              },
-              {
-                validator: this.validateToNextPassword
-              }
-            ]
-          })(<Input type="password" />)}
-        </FormItem> */}
-        {/* <FormItem {...formItemLayout} label="Confirm Password">
-          {getFieldDecorator("confirm", {
-            rules: [
-              {
-                required: true,
-                message: "Please confirm your password!"
-              },
-              {
-                validator: this.compareToFirstPassword
-              }
-            ]
-          })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
-        </FormItem> */}
-        <FormItem {...formItemLayout} label="Assistance Type">
+        <FormItem {...formItemLayout} label="Crisis Type">
           {getFieldDecorator("residence", {
             rules: [
               {
                 type: "array",
                 required: true,
+                message: "Please select assistance type!"
+              }
+            ]
+          })(<Cascader options={residences} />)}
+        </FormItem>
+        <FormItem {...formItemLayout} label="Crisis Description">
+          {getFieldDecorator("others", {
+            rules: [{ required: false }]
+          })(
+            <Input
+              style={{ width: "100%" }}
+              placeholder="Describe the crisis that you are reporting"
+            />
+          )}
+        </FormItem>
+        <FormItem {...formItemLayout} label="Assistance Type">
+          {getFieldDecorator("residence", {
+            rules: [
+              {
+                type: "array",
+                required: false,
                 message: "Please select assistance type!"
               }
             ]
@@ -315,7 +296,7 @@ class PageReport extends React.Component {
               fontSize: "1.5rem"
             }}
           >
-            Report Incident
+            Report Crisis
           </div>
           <div style={{ marginTop: "1rem" }}>
             <IRF />
