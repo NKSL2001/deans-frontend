@@ -1,0 +1,30 @@
+:local {
+  .container {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+  }
+
+  .left {
+    flex: 1;
+    margin-right: 2rem;
+  }
+
+  .right {
+    flex: 4;
+    padding-right: 2rem;
+  }
+
+  .header {
+    font-size: 2rem;
+    // font-weight: bold;
+  }
+
+  .map {
+    margin-top: 1.5rem;
+  }
+
+  .table {
+    margin-top: 1.5rem;
+  }
+}

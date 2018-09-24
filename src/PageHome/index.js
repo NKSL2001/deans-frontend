@@ -1,58 +1,35 @@
 import React from "react";
-import { Layout, Button } from "antd";
-
+// import PropTypes from "prop-types";
+// import Button from "@material-ui/core/Button";
 import NavBar from "src/components/NavBar";
-import _Footer from "src/components/Footer";
+import Footer from "src/components/Footer";
 
-const { Header, Content, Footer } = Layout;
+import * as styles from "./style.scss";
 
-// eslint-ignore-next-line
-class PageHome extends React.PureComponent {
-  render() {
-    return (
-      <Layout>
-        <Header>
-          {/* <div style={{ display: "inline", width: "3rem" }}>Logo</div> */}
-          {/* <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={["1"]}
-            style={{ lineHeight: "64px" }}
-          >
-            <Menu.Item key="1">Home</Menu.Item>
-            <Menu.Item key="2">Report</Menu.Item>
-          </Menu> */}
-          <NavBar />
-        </Header>
-        <Content style={{ padding: "0 50px" }}>
-          <div
-            style={{
-              fontWeight: "bold",
-              marginTop: "2rem",
-              fontSize: "1.5rem"
-            }}
-          >
-            Real-time Status
-          </div>
-          <div style={{ textAlign: "left", marginTop: "2rem" }}>
-            <iframe
-              width="100%"
-              height="450"
-              frameBorder="0"
-              allowFullScreen
-              src="https://www.google.com/maps/embed/v1/view?zoom=10&center=1.3554,103.8677&key=AIzaSyA4Z60Vt8Bq84x2X32NQ286a_2_hADWzqI"
-            />
-          </div>
-          <div style={{ marginTop: "1rem" }}>
-            <Button type="primary">Customize</Button>
-          </div>
-        </Content>
-        <Footer style={{ textAlign: "center" }}>
-          <_Footer />
-        </Footer>
-      </Layout>
-    );
-  }
+function PageHome() {
+  return (
+    <React.Fragment>
+      <NavBar />
+      <div className={styles.container}>
+        <div className={styles.header}>Home</div>
+        <div className={styles.map}>
+          <iframe
+            width="100%"
+            height="450"
+            frameBorder="0"
+            allowFullScreen
+            src="https://www.google.com/maps/embed/v1/view?zoom=10&center=1.3554,103.8677&key=AIzaSyA4Z60Vt8Bq84x2X32NQ286a_2_hADWzqI"
+          />
+        </div>
+        {/* <div className={styles.buttonGroup}>
+          <Button variant="contained" color="primary">
+            Customize
+          </Button>
+        </div> */}
+      </div>
+      <Footer />
+    </React.Fragment>
+  );
 }
 
 export default PageHome;

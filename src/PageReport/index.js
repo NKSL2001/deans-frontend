@@ -1,27 +1,22 @@
 import React from "react";
 import {
-  Layout,
   Form,
   Input,
   Tooltip,
   Icon,
   Cascader,
   Select,
-  Row,
-  Col,
   Checkbox,
-  Button,
-  AutoComplete
+  Button
 } from "antd";
 
 import NavBar from "src/components/NavBar";
-import _Footer from "src/components/Footer";
+import Footer from "src/components/Footer";
 
-const { Header, Content, Footer } = Layout;
+import * as styles from "./style.scss";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
 
 const residences = [
   {
@@ -97,7 +92,6 @@ class IncidentReportForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -128,10 +122,6 @@ class IncidentReportForm extends React.Component {
         <Option value="65">+65</Option>
       </Select>
     );
-
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -284,31 +274,19 @@ class PageReport extends React.Component {
   render() {
     const IRF = Form.create()(IncidentReportForm);
     return (
-      <Layout>
-        <Header>
-          <NavBar />
-        </Header>
-        <Content style={{ padding: "0 50px" }}>
-          <div
-            style={{
-              fontWeight: "bold",
-              marginTop: "2rem",
-              fontSize: "1.5rem"
-            }}
-          >
-            Report Crisis
-          </div>
-          <div style={{ marginTop: "1rem" }}>
+      <React.Fragment>
+        <NavBar />
+        <div className={styles.container}>
+          <div className={styles.header}>Report Crisis</div>
+          <div className={styles.form}>
             <IRF />
           </div>
           <div style={{ marginTop: "1rem" }}>
             Alternatively, call us directly at <strong>12345678</strong>.
           </div>
-        </Content>
-        <Footer style={{ textAlign: "center" }}>
-          <_Footer />
-        </Footer>
-      </Layout>
+        </div>
+        <Footer />
+      </React.Fragment>
     );
   }
 }

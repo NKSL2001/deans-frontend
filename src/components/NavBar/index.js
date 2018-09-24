@@ -1,18 +1,39 @@
 import React from "react";
+// import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import HomeIcon from "@material-ui/icons/Home";
 
-export default () => (
-  <Menu
-    theme="dark"
-    mode="horizontal"
-    style={{ lineHeight: "64px" }}
-  >
-    <Menu.Item key="1">
-      <Link to="/">Home</Link>
-    </Menu.Item>
-    <Menu.Item key="2">
-      <Link to="/report">Report</Link>
-    </Menu.Item>
-  </Menu>
-);
+import * as styles from "./style.scss";
+
+function NavBar() {
+  return (
+    <div className={styles.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Link to="/" className={styles.link}>
+            <IconButton
+              className={styles.menuButton}
+              color="inherit"
+              aria-label="Menu"
+            >
+              <HomeIcon />
+            </IconButton>
+          </Link>
+          <Typography variant="title" color="inherit" className={styles.grow}>
+            Dean&#39;s Crisis Management System
+          </Typography>
+          <Link to="/report" className={styles.link}>
+            <Button color="inherit">Report</Button>
+          </Link>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+}
+
+export default NavBar;

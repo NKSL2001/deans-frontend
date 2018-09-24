@@ -13,3 +13,21 @@
     width: 100%;
   }
 }
+
+:local {
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 3rem;
+  }
+
+  .header {
+    font-size: 2rem;
+    // font-weight: bold;
+    margin-top: 2rem;
+  }
+
+  .form {
+    margin-top: 2rem;
+  }
+}
