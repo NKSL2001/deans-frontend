@@ -15,8 +15,8 @@ const App = () => (
   <Router>
     <Switch>
       <Route exact path={ROUTES.ROUTE_HOME} component={PageHome} />
-      <Route exact path={ROUTES.ROUTE_REPORT} component={PageReport} />
-      <Route exact path={ROUTES.ROUTE_LOGIN} component={PageLogin} />
+      <Route path={ROUTES.ROUTE_REPORT} component={PageReport} />
+      <Route path={ROUTES.ROUTE_LOGIN} component={PageLogin} />
       <Route path={ROUTES.ROUTE_STAFF} component={PageStaff} />
       {/* add a 404 page */}
       <Route path={"/"} component={PageHome} />

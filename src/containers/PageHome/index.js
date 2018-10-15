@@ -1,5 +1,5 @@
 import React from "react";
-import Map from "@components/common/Map";
+import GMap from "@components/common/GMap";
 import NavBar from "@components/common/NavBar";
 import Footer from "@components/common/Footer";
 
@@ -12,7 +12,7 @@ function PageHome() {
       <div className={styles.container}>
         <div className={styles.header}>Home</div>
         <div className={styles.map}>
-          <Map center={{ lat: 1.3554, lng: 103.8677 }} zoom={12} />
+          <GMap />
         </div>
       </div>
       <Footer />
