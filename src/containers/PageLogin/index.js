@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
 
-import NavBar from "src/components/NavBar";
-import Footer from "src/components/Footer";
+import NavBar from "@components/common/NavBar";
+import Footer from "@components/common/Footer";
 import * as styles from "./style.scss";
 
 const FormItem = Form.Item;
@@ -55,6 +55,9 @@ class NormalLoginForm extends React.Component {
           >
             Log in
           </Button>
+          <a href="/staff/dashboard" style={{ color: "red" }}>
+            Force Login!
+          </a>
         </FormItem>
       </Form>
     );

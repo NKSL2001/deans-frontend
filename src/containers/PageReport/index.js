@@ -10,8 +10,8 @@ import {
   Button
 } from "antd";
 
-import NavBar from "src/components/NavBar";
-import Footer from "src/components/Footer";
+import NavBar from "@components/common/NavBar";
+import Footer from "@components/common/Footer";
 
 import * as styles from "./style.scss";
 

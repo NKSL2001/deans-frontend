@@ -19,7 +19,9 @@ const config = {
   },
   resolve: {
     alias: {
-      src: SRC_PATH
+      src: SRC_PATH,
+      "@components": SRC_PATH + "/components",
+      "@containers": SRC_PATH + "/containers"
     }
   },
   module: {
@@ -34,12 +36,12 @@ const config = {
           /\.(png|jpg|gif|woff|woff2|eot|ttf|svg)/,
           /\/typefaces\/.*\.svg/
         ],
-        exclude: ["node_modules"],
+        exclude: /node_modules/,
         use: [{ loader: "file-loader" }]
       },
       {
         test: /\.css$/,
-        exclude: ["node_modules"],
+        // exclude: /node_modules/,
         use: [
           {
             loader: devMode ? "style-loader" : MiniCssExtractPlugin.loader
@@ -65,7 +67,7 @@ const config = {
       },
       {
         test: /\.scss$/,
-        exclude: ["node_modules"],
+        exclude: /node_modules/,
         use: [
           {
             loader: devMode ? "style-loader" : MiniCssExtractPlugin.loader

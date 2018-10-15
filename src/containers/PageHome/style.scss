@@ -7,11 +7,16 @@
 
   .header {
     font-size: 2rem;
-    font-weight: bold;
     margin-top: 2rem;
   }
 
-  .form {
+  .map {
     margin-top: 2rem;
+    min-height: 20rem;
+    width: 100%;
+  }
+
+  .buttonGroup {
+    margin-top: 1rem;
   }
 }

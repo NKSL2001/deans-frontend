@@ -15,9 +15,8 @@
     "test": "echo \"Error: currently no test specified\" && exit 1"
   },
   "dependencies": {
-    "@material-ui/core": "^3.1.1",
-    "@material-ui/icons": "^3.0.1",
     "antd": "^3.9.2",
+    "google-map-react": "^1.0.9",
     "less": "^3.8.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
