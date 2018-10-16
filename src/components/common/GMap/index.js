@@ -25,7 +25,6 @@ const createMarker = crisisList =>
   ));
 
 class GMap extends Component {
-
   render() {
     return (
       // Important! Always set the container height explicitly
@@ -35,10 +34,8 @@ class GMap extends Component {
             key: "AIzaSyA4Z60Vt8Bq84x2X32NQ286a_2_hADWzqI"
           }}
           defaultCenter={{ lat: 1.3354, lng: 103.8277 }}
-          defaultZoom={11.85}
-          draggable={false}
-          disableDoubleClickZoom={true}
-          suppressMarkers={true}
+          defaultZoom={12}
+          draggable={true}
         >
           {createMarker(crisisList)}
         </GoogleMapReact>

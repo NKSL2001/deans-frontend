@@ -3,4 +3,9 @@
   .gm-style:first-of-type > div:nth-child(1) {
     cursor: default !important;
   }
+
+  .ant-form-item-label {
+    text-align: left !important;
+    margin-right: 1rem;
+  }
 }
