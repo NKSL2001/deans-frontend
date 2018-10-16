@@ -187,8 +187,8 @@ class CrisisEditForm extends React.Component {
             />
           )}
         </FormItem>
-        <FormItem style={{ width: "100%", textAlign: "center" }}>
-          <Button type="primary" htmlType="submit">
+        <FormItem>
+          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Confirm
           </Button>
         </FormItem>

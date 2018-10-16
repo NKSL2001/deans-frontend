@@ -154,7 +154,7 @@ class CrisisReportForm extends React.Component {
           )}
         </FormItem>
         <FormItem {...formItemLayout} label="Crisis Description">
-          {getFieldDecorator("others", {
+          {getFieldDecorator("crisisDescription", {
             rules: [{ required: false }]
           })(
             <Input
@@ -178,7 +178,7 @@ class CrisisReportForm extends React.Component {
           )}
         </FormItem>
         <FormItem {...formItemLayout} label="Assistance Description">
-          {getFieldDecorator("others", {
+          {getFieldDecorator("assistanceDescription", {
             rules: [{ required: false }]
           })(
             <Input
@@ -187,8 +187,8 @@ class CrisisReportForm extends React.Component {
             />
           )}
         </FormItem>
-        <FormItem style={{ width: "100%", textAlign: "center" }}>
-          <Button type="primary" htmlType="submit">
+        <FormItem>
+          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Submit
           </Button>
         </FormItem>

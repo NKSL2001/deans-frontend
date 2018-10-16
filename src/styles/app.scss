@@ -1,1 +1,6 @@
 // Add your global style here
+:global {
+  .gm-style:first-of-type > div:nth-child(1) {
+    cursor: default !important;
+  }
+}

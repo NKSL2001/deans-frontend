@@ -12,7 +12,7 @@ import PageStaff from "@containers/PageStaff";
 import ModalContainer from "@containers/ModalContainer";
 
 import "src/styles/app.scss";
-import "antd/dist/antd.css";
+import "antd/dist/antd.less";
 
 const App = () => (
   <Provider store={store}>

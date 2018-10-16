@@ -1,0 +1,15 @@
+:local {
+  .container {
+    font-size: 1.2rem;
+    color: crimson;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 5rem;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background-color: rgba(250,250,250,.7)
+    }
+  }
+}

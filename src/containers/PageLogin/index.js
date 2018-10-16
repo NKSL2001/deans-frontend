@@ -1,29 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
 
 import NavBar from "@components/common/NavBar";
-import Footer from "@components/common/Footer";
 import * as styles from "./style.scss";
 
 const FormItem = Form.Item;
 
 class NormalLoginForm extends React.Component {
+  state = {
+    redirect: false
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+        const { username, password } = values;
+        if (username === "admin" && password === "admin") {
+          this.setState({ redirect: true });
+        }
       }
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    if (this.state.redirect) return <Redirect to="/staff/dashboard" />;
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
+      <Form onSubmit={this.handleSubmit} className={styles.loginForm}>
         <FormItem>
-          {getFieldDecorator("userName", {
+          {getFieldDecorator("username", {
             rules: [{ required: true, message: "Please input your username!" }]
           })(
             <Input
@@ -51,13 +60,10 @@ class NormalLoginForm extends React.Component {
           <Button
             type="primary"
             htmlType="submit"
-            className="login-form-button"
+            className={styles.loginButton}
           >
             Log in
           </Button>
-          <a href="/staff/dashboard" style={{ color: "red" }}>
-            Force Login!
-          </a>
         </FormItem>
       </Form>
     );
@@ -73,12 +79,13 @@ class PageLogin extends React.PureComponent {
       <React.Fragment>
         <NavBar />
         <div className={styles.container}>
-          <div className={styles.header}>Staff Login</div>
-          <div className={styles.form}>
-            <WrappedNormalLoginForm />
+          <div className={styles.innerContainer}>
+            <div className={styles.header}>Staff Login</div>
+            <div className={styles.form}>
+              <WrappedNormalLoginForm />
+            </div>
           </div>
         </div>
-        <Footer />
       </React.Fragment>
     );
   }

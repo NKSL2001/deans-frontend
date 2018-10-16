@@ -49,8 +49,8 @@ class CrisisDispatchForm extends React.Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormItem {...formItemLayout} label="Crisis Type">
-          {getFieldDecorator("emergencyAgencies", {
+        <FormItem {...formItemLayout} label="Agencies">
+          {getFieldDecorator("agencies", {
             rules: [
               {
                 type: "array",
@@ -77,8 +77,8 @@ class CrisisDispatchForm extends React.Component {
             />
           )}
         </FormItem>
-        <FormItem style={{ width: "100%", textAlign: "center" }}>
-          <Button type="primary" htmlType="submit">
+        <FormItem>
+          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Dispatch
           </Button>
         </FormItem>

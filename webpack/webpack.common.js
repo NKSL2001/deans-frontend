@@ -68,6 +68,31 @@ const config = {
         ]
       },
       {
+        test: /\.less$/,
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader" // translates CSS into CommonJS
+          },
+          {
+            loader: "less-loader", // compiles Less to CSS,
+            options: {
+              modifyVars: {
+                "primary-color": "#000000",
+                "link-color": "#000000",
+                "border-radius-base": "2px",
+                "item-hover-bg": "rgba(250,250,250,.9)",
+                "item-active-bg": "rgba(250,250,250,.9)",
+                "table-row-hover-bg": "rgba(250,250,250,.9)"
+              },
+              javascriptEnabled: true
+            }
+          }
+        ]
+      },
+      {
         test: /\.scss$/,
         exclude: /node_modules/,
         use: [
