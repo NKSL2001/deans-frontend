@@ -23,7 +23,8 @@ const config = {
       "@components": SRC_PATH + "/components",
       "@containers": SRC_PATH + "/containers",
       "@api": SRC_PATH + "/api",
-      "@redux": SRC_PATH + "/redux"
+      "@redux": SRC_PATH + "/redux",
+      "@assets": SRC_PATH + "/assets"
     }
   },
   module: {
