@@ -21,7 +21,9 @@ const config = {
     alias: {
       src: SRC_PATH,
       "@components": SRC_PATH + "/components",
-      "@containers": SRC_PATH + "/containers"
+      "@containers": SRC_PATH + "/containers",
+      "@api": SRC_PATH + "/api",
+      "@redux": SRC_PATH + "/redux"
     }
   },
   module: {

@@ -1,35 +1,21 @@
 import React from "react";
-import { Button, Table } from "antd";
+import PropTypes from "prop-types";
+import { Modal, Button, Table } from "antd";
+import * as styles from "./style.scss";
 
-const COLUMNS = [
-  {
-    title: "Crisis Type",
-    dataIndex: "crisisType",
-    key: "crisisType"
-  },
-  {
-    title: "Location",
-    dataIndex: "location",
-    key: "location"
-  },
-  {
-    title: "Action",
-    dataIndex: "action",
-    key: "action",
-    render: () => (
-      <React.Fragment>
-        <Button type="dashed">Edit</Button>
-        <Button>Dispatch</Button>
-        <Button type="danger">Resolve</Button>
-      </React.Fragment>
-    )
-  },
-  {
-    title: "Status",
-    key: "status",
-    dataIndex: "status"
-  }
-];
+const resolveCrisis = () => {
+  Modal.confirm({
+    title: "Resolve crisis?",
+    content:
+      "The crisis will be marked as resolved. You won't be able to open it again.",
+    onOk() {
+      console.log("Confirmed");
+    },
+    onCancel() {
+      console.log("Cancel");
+    }
+  });
+};
 
 const dataSource = [
   {
@@ -45,15 +31,53 @@ const dataSource = [
     status: "Dispatched"
   },
   {
-    key: "2",
+    key: "3",
     crisisType: "Injury",
     location: "One North",
     status: "Resolved"
   }
 ];
 
-const CrisisListTable = () => (
-  <Table dataSource={dataSource} columns={COLUMNS} />
-);
+const CrisisListTable = props => {
+  const COLUMNS = [
+    {
+      title: "Crisis Type",
+      dataIndex: "crisisType",
+      key: "crisisType"
+    },
+    {
+      title: "Location",
+      dataIndex: "location",
+      key: "location"
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      key: "action",
+      render: () => (
+        <div className={styles.actions}>
+          <Button type="dashed" onClick={props.editCrisis}>
+            Edit
+          </Button>
+          <Button onClick={props.dispatchCrisis}>Dispatch</Button>
+          <Button onClick={resolveCrisis} type="danger">
+            Resolve
+          </Button>
+        </div>
+      )
+    },
+    {
+      title: "Status",
+      key: "status",
+      dataIndex: "status"
+    }
+  ];
+  return <Table dataSource={dataSource} columns={COLUMNS} />;
+};
+
+CrisisListTable.propTypes = {
+  editCrisis: PropTypes.func.isRequired,
+  dispatchCrisis: PropTypes.func.isRequired
+};
 
 export default CrisisListTable;

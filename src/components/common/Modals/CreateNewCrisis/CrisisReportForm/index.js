@@ -1,19 +1,15 @@
 import React from "react";
-import { Form, Input, Tooltip, Icon, Select, Checkbox, Button } from "antd";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng
-} from "react-places-autocomplete";
+import { Form, Input, Tooltip, Icon, Select, Button } from "antd";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 const crisisType = [
-  "Injury",
-  "Hazardous Air Condition",
-  "Fire Breakout",
-  "Gas Leaks",
-  "Crisis Not Listed"
+  "Emergency Ambulance",
+  "Rescue and Evacuation",
+  "Fire Fighting",
+  "Gas Leak Control",
+  "Others (please specify in description)"
 ];
 
 const assistanceType = [
@@ -21,7 +17,7 @@ const assistanceType = [
   "Rescue and Evacuation",
   "Fire Fighting",
   "Gas Leak Control",
-  "Assistance Not Listed"
+  "Others (please specify in description)"
 ];
 
 const createSelectionList = arr =>
@@ -34,22 +30,7 @@ const createSelectionList = arr =>
 class CrisisReportForm extends React.Component {
   state = {
     confirmDirty: false,
-    autoCompleteResult: [],
-    address: ""
-  };
-
-  handleChange = address => {
-    this.setState({ address });
-  };
-
-  handleSelect = address => {
-    geocodeByAddress(address)
-      .then(results => {
-        console.log("results", results);
-        getLatLng(results[0]);
-      })
-      .then(latLng => console.log("Success", latLng))
-      .catch(error => console.error("Error", error));
+    autoCompleteResult: []
   };
 
   handleSubmit = e => {
@@ -83,29 +64,29 @@ class CrisisReportForm extends React.Component {
     callback();
   };
 
+  handleWebsiteChange = value => {
+    let autoCompleteResult;
+    if (!value) {
+      autoCompleteResult = [];
+    } else {
+      autoCompleteResult = [".com", ".org", ".net"].map(
+        domain => `${value}${domain}`
+      );
+    }
+    this.setState({ autoCompleteResult });
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 4 }
+        sm: { span: 8 }
       },
       wrapperCol: {
         xs: { span: 24 },
         sm: { span: 16 }
-      }
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0
-        },
-        sm: {
-          span: 16,
-          offset: 4
-        }
       }
     };
     const prefixSelector = getFieldDecorator("prefix", {
@@ -155,62 +136,7 @@ class CrisisReportForm extends React.Component {
                 whitespace: true
               }
             ]
-          })(
-            <PlacesAutocomplete
-              value={this.state.address}
-              onChange={this.handleChange}
-              onSelect={this.handleSelect}
-            >
-              {({
-                getInputProps,
-                suggestions,
-                getSuggestionItemProps,
-                loading
-              }) => (
-                <React.Fragment>
-                  <Input
-                    {...getInputProps({
-                      placeholder: "Search Places ...",
-                      className: "location-search-input"
-                    })}
-                  />
-                  <div className="autocomplete-dropdown-container">
-                    {loading && <div>Loading...</div>}
-                    {suggestions.map((suggestion, index) => {
-                      const className = suggestion.active
-                        ? "suggestion-item--active"
-                        : "suggestion-item";
-                      // inline style for demonstration purpose
-                      const style = suggestion.active
-                        ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                        : { backgroundColor: "#ffffff", cursor: "pointer" };
-                      return (
-                        <div
-                          key={index}
-                          {...getSuggestionItemProps(suggestion, {
-                            className,
-                            style
-                          })}
-                        >
-                          <span>{suggestion.description}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </React.Fragment>
-              )}
-            </PlacesAutocomplete>
-          )}
-        </FormItem>
-        <FormItem {...formItemLayout} label={<span>Location 2</span>}>
-          {getFieldDecorator("location_2", {
-            rules: [
-              {
-                required: false,
-                whitespace: true
-              }
-            ]
-          })(<Input placeholder="Room number, block number, street name..." />)}
+          })(<Input placeholder="Enter postal code to quickly navigate" />)}
         </FormItem>
         <FormItem {...formItemLayout} label="Crisis Type">
           {getFieldDecorator("crisisType", {
@@ -222,7 +148,7 @@ class CrisisReportForm extends React.Component {
               }
             ]
           })(
-            <Select mode="multiple" placeholder="Select crisis type(s)">
+            <Select mode="multiple" placeholder="Please select favorite colors">
               {createSelectionList(crisisType)}
             </Select>
           )}
@@ -261,17 +187,7 @@ class CrisisReportForm extends React.Component {
             />
           )}
         </FormItem>
-        <FormItem {...tailFormItemLayout}>
-          {getFieldDecorator("agreement", {
-            valuePropName: "checked"
-          })(
-            <Checkbox>
-              I understand that fake report is a breach of law and I will be
-              arrested, fined and jailed.
-            </Checkbox>
-          )}
-        </FormItem>
-        <FormItem {...tailFormItemLayout}>
+        <FormItem style={{ width: "100%", textAlign: "center" }}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
