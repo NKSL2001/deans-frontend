@@ -47,7 +47,7 @@ const UserTable = () => {
       key: "action",
       render: () => (
         <div className={styles.actions}>
-          <Button onClick={deleteUser}>Edit</Button>
+          <Button>Edit</Button>
           <Button onClick={deleteUser} type="danger">
             Delete
           </Button>

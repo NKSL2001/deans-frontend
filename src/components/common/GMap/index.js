@@ -7,21 +7,33 @@ import GoogleMapReact from "google-map-react";
 const crisisList = [
   {
     lat: 1.3564,
-    lng: 103.8977
+    lng: 103.8977,
+    type: "Fire",
+    description: "Fire in the hole!"
   },
   {
     lat: 1.3554,
-    lng: 103.7677
+    lng: 103.7677,
+    type: "Injury",
+    description: ""
   },
   {
     lat: 1.3454,
-    lng: 103.9677
+    lng: 103.9677,
+    type: "Injury",
+    description: ""
   }
 ];
 
 const createMarker = crisisList =>
   crisisList.map((crisis, index) => (
-    <Marker key={index} lat={crisis.lat} lng={crisis.lng} />
+    <Marker
+      key={index}
+      lat={crisis.lat}
+      lng={crisis.lng}
+      type={crisis.type}
+      description={crisis.description}
+    />
   ));
 
 class GMap extends Component {

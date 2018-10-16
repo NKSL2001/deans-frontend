@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon } from "antd";
+// import { Icon } from "antd";
 import { Link } from "react-router-dom";
 
 import * as styles from "./style.scss";
@@ -8,9 +8,13 @@ function NavBar() {
   return (
     <div className={styles.container}>
       <div className={styles.left}>
+        <div className={styles.item + " " + styles.brand}>
+          Dean&#39;s Crisis Management System
+        </div>
         <div className={styles.item}>
           <Link to="/">
-            <Icon type="home" theme="outlined" />
+            {/* <Icon type="home" theme="outlined" /> */}
+            Home
           </Link>
         </div>
         <div className={styles.item}>

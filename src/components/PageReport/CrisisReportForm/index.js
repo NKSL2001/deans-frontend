@@ -9,7 +9,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const crisisType = [
-  "Injury",
+  "Casualty",
   "Hazardous Air Condition",
   "Fire Breakout",
   "Gas Leaks",

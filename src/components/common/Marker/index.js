@@ -6,7 +6,11 @@ import * as styles from "./style.scss";
 
 const Marker = props => (
   <div lat={props.lat} lng={props.lng}>
-    <Popover placement="top" title="Hiii" content="Content">
+    <Popover
+      placement="top"
+      title={props.type}
+      content={props.description === "" ? "No description" : props.description}
+    >
       <Icon className={styles.container} type="warning" theme="filled" />
     </Popover>
   </div>
@@ -14,7 +18,9 @@ const Marker = props => (
 
 Marker.propTypes = {
   lat: PropTypes.number.isRequired,
-  lng: PropTypes.number.isRequired
+  lng: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
 };
 
 export default Marker;
