@@ -38,12 +38,10 @@ class CrisisDispatchForm extends React.Component {
 
     const formItemLayout = {
       labelCol: {
-        xs: { span: 24 },
-        sm: { span: 6 }
+        sm: { span: 8 }
       },
       wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 }
+        sm: { span: 15 }
       }
     };
 
@@ -77,7 +75,7 @@ class CrisisDispatchForm extends React.Component {
             />
           )}
         </FormItem>
-        <FormItem>
+        <FormItem style={{ marginBottom: 0 }}>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Dispatch
           </Button>

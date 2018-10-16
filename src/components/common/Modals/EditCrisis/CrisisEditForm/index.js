@@ -29,8 +29,7 @@ const createSelectionList = arr =>
 
 class CrisisEditForm extends React.Component {
   state = {
-    confirmDirty: false,
-    autoCompleteResult: []
+    confirmDirty: false
   };
 
   handleSubmit = e => {
@@ -81,12 +80,10 @@ class CrisisEditForm extends React.Component {
 
     const formItemLayout = {
       labelCol: {
-        xs: { span: 24 },
         sm: { span: 8 }
       },
       wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 }
+        sm: { span: 15 }
       }
     };
     const prefixSelector = getFieldDecorator("prefix", {
@@ -138,6 +135,16 @@ class CrisisEditForm extends React.Component {
             ]
           })(<Input placeholder="Enter postal code to quickly navigate" />)}
         </FormItem>
+        <FormItem {...formItemLayout} label={<span>Location 2</span>}>
+          {getFieldDecorator("location_2", {
+            rules: [
+              {
+                required: false,
+                whitespace: true
+              }
+            ]
+          })(<Input placeholder="Room number, block number, street name..." />)}
+        </FormItem>
         <FormItem {...formItemLayout} label="Crisis Type">
           {getFieldDecorator("crisisType", {
             rules: [
@@ -187,7 +194,7 @@ class CrisisEditForm extends React.Component {
             />
           )}
         </FormItem>
-        <FormItem>
+        <FormItem style={{ marginBottom: 0 }}>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Confirm
           </Button>

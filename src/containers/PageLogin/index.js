@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
-import { Form, Icon, Input, Button, Checkbox } from "antd";
-
+import { Form, Icon, Input, Button, Checkbox, message } from "antd";
 import NavBar from "@components/common/NavBar";
+import Footer from "@components/common/Footer";
 import * as styles from "./style.scss";
 
 const FormItem = Form.Item;
@@ -21,6 +21,8 @@ class NormalLoginForm extends React.Component {
         const { username, password } = values;
         if (username === "admin" && password === "admin") {
           this.setState({ redirect: true });
+        } else {
+          message.error("Username or password is wrong!", 1);
         }
       }
     });
@@ -86,6 +88,7 @@ class PageLogin extends React.PureComponent {
             </div>
           </div>
         </div>
+        <Footer />
       </React.Fragment>
     );
   }

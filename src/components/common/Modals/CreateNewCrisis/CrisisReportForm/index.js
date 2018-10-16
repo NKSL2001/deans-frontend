@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Tooltip, Icon, Select, Button } from "antd";
+import { Form, Input, Select, Button } from "antd";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -29,8 +29,7 @@ const createSelectionList = arr =>
 
 class CrisisReportForm extends React.Component {
   state = {
-    confirmDirty: false,
-    autoCompleteResult: []
+    confirmDirty: false
   };
 
   handleSubmit = e => {
@@ -81,12 +80,10 @@ class CrisisReportForm extends React.Component {
 
     const formItemLayout = {
       labelCol: {
-        xs: { span: 24 },
         sm: { span: 8 }
       },
       wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 }
+        sm: { span: 15 }
       }
     };
     const prefixSelector = getFieldDecorator("prefix", {
@@ -99,31 +96,21 @@ class CrisisReportForm extends React.Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormItem
-          {...formItemLayout}
-          label={
-            <span>
-              Your Name&nbsp;
-              <Tooltip title="Your real name">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator("nickname", {
+        <FormItem {...formItemLayout} label={<span>Reporter Name</span>}>
+          {getFieldDecorator("name", {
             rules: [
               {
                 required: true,
-                message: "Please input your name!",
+                message: "Please input reporter name!",
                 whitespace: true
               }
             ]
-          })(<Input />)}
+          })(<Input placeholder="Enter reporter name" />)}
         </FormItem>
         <FormItem {...formItemLayout} label="Mobile Number">
           {getFieldDecorator("phone", {
             rules: [
-              { required: true, message: "Please input your mobile number!" }
+              { required: true, message: "Please input the mobile number!" }
             ]
           })(<Input addonBefore={prefixSelector} style={{ width: "100%" }} />)}
         </FormItem>
@@ -137,6 +124,16 @@ class CrisisReportForm extends React.Component {
               }
             ]
           })(<Input placeholder="Enter postal code to quickly navigate" />)}
+        </FormItem>
+        <FormItem {...formItemLayout} label={<span>Location 2</span>}>
+          {getFieldDecorator("location_2", {
+            rules: [
+              {
+                required: false,
+                whitespace: true
+              }
+            ]
+          })(<Input placeholder="Room number, block number, street name..." />)}
         </FormItem>
         <FormItem {...formItemLayout} label="Crisis Type">
           {getFieldDecorator("crisisType", {
@@ -187,7 +184,7 @@ class CrisisReportForm extends React.Component {
             />
           )}
         </FormItem>
-        <FormItem>
+        <FormItem style={{ marginBottom: 0 }}>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Submit
           </Button>
