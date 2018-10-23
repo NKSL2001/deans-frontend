@@ -8,7 +8,7 @@ const Marker = props => (
   <div lat={props.lat} lng={props.lng}>
     <Popover
       placement="top"
-      title={props.type}
+      title={props.type.join(", ")}
       content={props.description === "" ? "No description" : props.description}
     >
       <Icon className={styles.container} type="warning" theme="filled" />
@@ -19,8 +19,8 @@ const Marker = props => (
 Marker.propTypes = {
   lat: PropTypes.number.isRequired,
   lng: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
+  type: PropTypes.array.isRequired,
+  description: PropTypes.string
 };
 
 export default Marker;
