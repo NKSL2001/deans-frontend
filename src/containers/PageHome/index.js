@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import * as api from "@api";
 import { connect } from "react-redux";
 import { getCrises } from "@redux/actions";
 import GMap from "@components/common/GMap";
@@ -16,6 +17,7 @@ class PageHome extends React.Component {
 
   fetchData = () => {
     this.props.getCrises();
+    api.userLogin();
   };
 
   render() {
