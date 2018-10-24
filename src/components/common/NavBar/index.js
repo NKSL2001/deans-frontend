@@ -13,7 +13,7 @@ function NavBar() {
           <img src={logo} className={styles.logo} />
         </div>
         <div className={styles.item + " " + styles.brand}>
-          Dean&#39;s Crisis Management System
+          <Link to="/">Dean&#39;s Crisis Management System</Link>
         </div>
         <div className={styles.item}>
           <Link to="/">
