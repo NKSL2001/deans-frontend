@@ -28,16 +28,16 @@ import GoogleMapReact from "google-map-react";
 const createMarker = crisisList =>
   crisisList.map(crisis => {
     const key = crisis.crisis_id;
-    const location = crisis.crisis_location
-      .split(",  ")
-      .map(val => parseFloat(val));
+    const location =
+      crisis.crisis_location &&
+      crisis.crisis_location.split(",  ").map(val => parseFloat(val));
     const type = crisis.crisis_type;
     const description = crisis.crisis_description;
     return (
       <Marker
         key={key}
-        lat={location[0]}
-        lng={location[1]}
+        lat={location && location[0]}
+        lng={location && location[1]}
         type={type}
         description={description}
       />

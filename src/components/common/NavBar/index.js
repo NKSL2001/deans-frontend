@@ -10,7 +10,9 @@ function NavBar() {
     <div className={styles.container}>
       <div className={styles.left}>
         <div className={styles.item}>
-          <img src={logo} className={styles.logo} />
+          <Link to="/">
+            <img src={logo} className={styles.logo} />
+          </Link>
         </div>
         <div className={styles.item + " " + styles.brand}>
           <Link to="/">Dean&#39;s Crisis Management System</Link>
