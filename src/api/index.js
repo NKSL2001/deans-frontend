@@ -1,7 +1,7 @@
 import axios from "axios";
 import coreapi from "coreapi";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "http://localhost:8000/api";
 
 export const getCrises = () => {
   return axios.get("/crises");
