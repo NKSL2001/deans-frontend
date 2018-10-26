@@ -24,7 +24,7 @@ const App = () => (
           <Route path={ROUTES.ROUTE_REPORT} component={PageReport} />
           <Route path={ROUTES.ROUTE_LOGIN} component={PageLogin} />
           <Route path={ROUTES.ROUTE_STAFF} component={PageStaff} />
-          {/* add a 404 page */}
+          {/* fall back main page */}
           <Route path={"/"} component={PageHome} />
         </Switch>
       </Router>

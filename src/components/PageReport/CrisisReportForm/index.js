@@ -45,7 +45,6 @@ class CrisisReportForm extends React.Component {
   handleSelect = address => {
     geocodeByAddress(address)
       .then(results => {
-        console.log("results", results);
         getLatLng(results[0]);
       })
       .then(latLng => console.log("Success", latLng))
@@ -125,7 +124,7 @@ class CrisisReportForm extends React.Component {
             </span>
           }
         >
-          {getFieldDecorator("nickname", {
+          {getFieldDecorator("name", {
             rules: [
               {
                 required: true,
@@ -224,7 +223,7 @@ class CrisisReportForm extends React.Component {
           )}
         </FormItem>
         <FormItem {...formItemLayout} label="Crisis Description">
-          {getFieldDecorator("others", {
+          {getFieldDecorator("crisisDescription", {
             rules: [{ required: false }]
           })(
             <Input

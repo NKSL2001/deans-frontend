@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import * as api from "@api";
 import { connect } from "react-redux";
-import { getCrises } from "@redux/actions";
+import { getCrises, initSystem } from "@redux/actions";
 import GMap from "@components/common/GMap";
 import NavBar from "@components/common/NavBar";
 import Footer from "@components/common/Footer";
@@ -12,12 +11,12 @@ import * as styles from "./style.scss";
 
 class PageHome extends React.Component {
   componentDidMount() {
+    this.props.initSystem();
     this.fetchData();
   }
 
   fetchData = () => {
     this.props.getCrises();
-    api.userLogin();
   };
 
   render() {
@@ -33,9 +32,9 @@ class PageHome extends React.Component {
             <div className={styles.subHeader}>Active Crisis</div>
             <div className={styles.activeCrisisListTable}>
               <ActiveCrisisListTable crises={this.props.crises || []} />
-            </div>
+            </div>·
           </div>
-        </div>
+        </div>·
         <Footer />
       </React.Fragment>
     );
@@ -44,17 +43,21 @@ class PageHome extends React.Component {
 
 PageHome.propTypes = {
   crises: PropTypes.array,
+  initSystem: PropTypes.func.isRequired,
   getCrises: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
-  const { common } = state;
+  const { system, common } = state;
   return {
+    crisisType: system && system.crisisType,
+    assistanceType: system && system.assistanceType,
     crises: common && common.crises
   };
 };
 
 const mapDispatchToProps = dispatch => ({
+  initSystem: () => dispatch(initSystem()),
   getCrises: () => dispatch(getCrises())
 });
 

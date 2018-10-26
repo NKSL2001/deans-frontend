@@ -1,11 +1,44 @@
 import * as actionTypes from "./actionTypes";
 import * as api from "@api";
 
+export const initSystem = () => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.FETCH_CRISIS_TYPE_REQUESTED
+    });
+    api
+      .getCrisisType()
+      .then(response =>
+        dispatch({
+          type: actionTypes.FETCH_CRISIS_TYPE_SUCCESS,
+          payload: response.data
+        })
+      )
+      .catch(() =>
+        dispatch({
+          type: actionTypes.FETCH_CRISIS_TYPE_FAILURE
+        })
+      );
+    dispatch({
+      type: actionTypes.FETCH_ASSISTANCE_TYPE_REQUESTED
+    });
+    api
+      .getAssistanceType()
+      .then(response =>
+        dispatch({
+          type: actionTypes.FETCH_ASSISTANCE_TYPE_SUCCESS,
+          payload: response.data
+        })
+      )
+      .catch(() =>
+        dispatch({
+          type: actionTypes.FETCH_ASSISTANCE_TYPE_FAILURE
+        })
+      );
+  };
+};
+
 export const getCrises = () => {
-  api
-    .getCrises()
-    .then(response => console.log(response))
-    .catch(error => console.log(error));
   return async dispatch => {
     dispatch({
       type: actionTypes.FETCH_CRISIS_REQUESTED
