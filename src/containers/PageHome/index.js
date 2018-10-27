@@ -32,9 +32,9 @@ class PageHome extends React.Component {
             <div className={styles.subHeader}>Active Crisis</div>
             <div className={styles.activeCrisisListTable}>
               <ActiveCrisisListTable crises={this.props.crises || []} />
-            </div>·
+            </div>
           </div>
-        </div>·
+        </div>
         <Footer />
       </React.Fragment>
     );

@@ -2,6 +2,9 @@ import * as actionTypes from "./actionTypes";
 import { combineReducers } from "redux";
 
 const initialState = {
+  staff: {
+    flag: false
+  },
   system: {
     crisisType: null,
     assistanceType: null
@@ -34,6 +37,25 @@ const system = (state = initialState.system, action) => {
       return {
         ...state,
         assistanceType: transform(payload)
+      };
+    default:
+      return state;
+  }
+};
+
+const staff = (state = initialState.staff, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case actionTypes.USER_LOGIN_SUCCESS:
+      localStorage.setItem("token", payload.key);
+      return {
+        ...state,
+        flag: true
+      };
+    case actionTypes.USER_LOGIN_FAILURE:
+      return {
+        ...state,
+        flag: false
       };
     default:
       return state;
@@ -73,4 +95,4 @@ const modal = (state = initialState.modal, action) => {
   }
 };
 
-export default combineReducers({ modal, common, system });
+export default combineReducers({ modal, common, system, staff });

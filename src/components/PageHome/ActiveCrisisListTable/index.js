@@ -28,7 +28,9 @@ import { Table } from "antd";
 const createDataSource = (crisisList, crisisType) =>
   crisisList.map(crisis => {
     const key = crisis.crisis_id;
-    const type = crisis.crisis_type.map(val => crisisType[val]).join(", ");
+    const type = crisis.crisis_type
+      .map(val => crisisType && crisisType[val])
+      .join(", ");
     const location = "TODO";
     const description = crisis.crisis_description;
     return {
