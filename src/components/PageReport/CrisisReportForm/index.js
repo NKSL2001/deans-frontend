@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Form, Input, Tooltip, Icon, Select, Checkbox, Button } from "antd";
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -8,26 +9,26 @@ import PlacesAutocomplete, {
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const crisisType = [
-  "Casualty",
-  "Hazardous Air Condition",
-  "Fire Breakout",
-  "Gas Leaks",
-  "Crisis Not Listed"
-];
+// const crisisType = [
+//   "Casualty",
+//   "Hazardous Air Condition",
+//   "Fire Breakout",
+//   "Gas Leaks",
+//   "Crisis Not Listed"
+// ];
 
-const assistanceType = [
-  "Emergency Ambulance",
-  "Rescue and Evacuation",
-  "Fire Fighting",
-  "Gas Leak Control",
-  "Assistance Not Listed"
-];
+// const assistanceType = [
+//   "Emergency Ambulance",
+//   "Rescue and Evacuation",
+//   "Fire Fighting",
+//   "Gas Leak Control",
+//   "Assistance Not Listed"
+// ];
 
-const createSelectionList = arr =>
-  arr.map((value, index) => (
-    <Option value={value} key={index}>
-      {value}
+const createSelectionList = obj =>
+  Object.keys(obj).map((val, index) => (
+    <Option value={val} key={index}>
+      {obj[val]}
     </Option>
   ));
 
@@ -218,7 +219,7 @@ class CrisisReportForm extends React.Component {
             ]
           })(
             <Select mode="multiple" placeholder="Select crisis type(s)">
-              {createSelectionList(crisisType)}
+              {createSelectionList(this.props.crisisType)}
             </Select>
           )}
         </FormItem>
@@ -242,12 +243,12 @@ class CrisisReportForm extends React.Component {
             ]
           })(
             <Select mode="multiple" placeholder="Select assistance(s) required">
-              {createSelectionList(assistanceType)}
+              {createSelectionList(this.props.assistanceType)}
             </Select>
           )}
         </FormItem>
         <FormItem {...formItemLayout} label="Assistance Description">
-          {getFieldDecorator("others", {
+          {getFieldDecorator("assistanceDescription", {
             rules: [{ required: false }]
           })(
             <Input
@@ -256,16 +257,17 @@ class CrisisReportForm extends React.Component {
             />
           )}
         </FormItem>
-        <FormItem {...tailFormItemLayout}>
+        {/* <FormItem {...tailFormItemLayout}>
           {getFieldDecorator("agreement", {
-            valuePropName: "checked"
+            valuePropName: "checked",
+            required: true
           })(
             <Checkbox>
               I understand that fake report is a breach of law and I will be
               arrested, fined and jailed.
             </Checkbox>
           )}
-        </FormItem>
+        </FormItem> */}
         <FormItem {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Submit
@@ -275,5 +277,10 @@ class CrisisReportForm extends React.Component {
     );
   }
 }
+
+CrisisReportForm.propTypes = {
+  crisisType: PropTypes.array.isRequired,
+  assistanceType: PropTypes.array.isRequired
+};
 
 export default Form.create()(CrisisReportForm);

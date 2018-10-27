@@ -9,7 +9,7 @@ class PageSetting extends React.Component {
         <h1>Setting</h1>
         <div className={styles.subHeader}>
           <div>Crisis Type</div>
-          <Button type="dashed">Edit</Button>
+          <Button>Add</Button>
         </div>
         <div className={styles.tagContainer}>
           <Tag color="purple">Casualty</Tag>
@@ -19,7 +19,7 @@ class PageSetting extends React.Component {
         </div>
         <div className={styles.subHeader}>
           <div>Assistance Type</div>
-          <Button type="dashed">Edit</Button>
+          <Button>Add</Button>
         </div>
         <div className={styles.tagContainer}>
           <Tag color="geekblue">Emergency Ambulance</Tag>
@@ -29,7 +29,6 @@ class PageSetting extends React.Component {
         </div>
         <div className={styles.subHeader}>
           <div>Social Media Account</div>
-          <Button>Add</Button>
         </div>
         <div className={styles.socialMediaAccountContainer}>
           <div className={styles.item + " " + styles.label}>Social Media</div>
@@ -38,27 +37,27 @@ class PageSetting extends React.Component {
           <div className={styles.item + " " + styles.label}>Actions</div>
           <div className={styles.item}>Facebook</div>
           <div className={styles.item}>
-            <Input type="text" value="john.doe@gmail.com" />
+            <Input type="text" defaultValue="john.doe@gmail.com" />
           </div>
           <div className={styles.item}>
-            <Input type="password" value="123123" />
+            <Input type="password" defaultValue="123123" />
           </div>
           <div className={styles.item}>
             <div className={styles.actions}>
-              <Button>Save</Button>
+              <Button type="primary">Save</Button>
               <Button type="danger">Delete</Button>
             </div>
           </div>
           <div className={styles.item}>Twitter</div>
           <div className={styles.item}>
-            <Input type="text" value="john.doe@gmail.com" />
+            <Input type="text" defaultValue="john.doe@gmail.com" />
           </div>
           <div className={styles.item}>
-            <Input type="password" value="123123" />
+            <Input type="password" defaultValue="123123" />
           </div>
           <div className={styles.item}>
             <div className={styles.actions}>
-              <Button>Save</Button>
+              <Button type="primary" disabled>Save</Button>
               <Button type="danger">Delete</Button>
             </div>
           </div>
@@ -73,41 +72,41 @@ class PageSetting extends React.Component {
           <div className={styles.item + " " + styles.label}>Actions</div>
           <div className={styles.item}>Singapore Civil Defence Force</div>
           <div className={styles.item}>
-            <Input value="12345678" />
+            <Input defaultValue="12345678" />
           </div>
           <div className={styles.item}>
             <div className={styles.actions}>
-              <Button>Save</Button>
+              <Button type="primary">Save</Button>
               <Button type="danger">Delete</Button>
             </div>
           </div>
           <div className={styles.item}>Singapore Power</div>
           <div className={styles.item}>
-            <Input value="12345678" />
+            <Input defaultValue="12345678" />
           </div>
           <div className={styles.item}>
             <div className={styles.actions}>
-              <Button>Save</Button>
+              <Button type="primary">Save</Button>
               <Button type="danger">Delete</Button>
             </div>
           </div>
           <div className={styles.item}>Ministry of Truth</div>
           <div className={styles.item}>
-            <Input value="12345678" />
+            <Input defaultValue="12345678" />
           </div>
           <div className={styles.item}>
             <div className={styles.actions}>
-              <Button>Save</Button>
+              <Button type="primary">Save</Button>
               <Button type="danger">Delete</Button>
             </div>
           </div>
         </div>
         <div className={styles.subHeader}>
           <div>Summary Reporting Email</div>
-          <Button>Save</Button>
+          <Button type="primary">Save</Button>
         </div>
         <div className={styles.summaryReportingEmailContainer}>
-          <Input value="prime-minister@gmail.com" />
+          <Input defaultValue="prime-minister@gmail.com" />
         </div>
       </div>
     );
