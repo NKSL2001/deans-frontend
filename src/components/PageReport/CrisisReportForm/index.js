@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Form, Input, Tooltip, Icon, Select, Checkbox, Button } from "antd";
+import { Form, Input, Tooltip, Icon, Select, Button } from "antd";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
@@ -35,20 +35,23 @@ const createSelectionList = obj =>
 class CrisisReportForm extends React.Component {
   state = {
     confirmDirty: false,
-    autoCompleteResult: [],
-    address: ""
+    address: "",
+    gps: null
   };
 
-  handleChange = address => {
-    this.setState({ address });
-  };
+  handleChange = () => null; // dummy
 
   handleSelect = address => {
     geocodeByAddress(address)
       .then(results => {
-        getLatLng(results[0]);
+        return getLatLng(results[0]);
       })
-      .then(latLng => console.log("Success", latLng))
+      .then(gps => {
+        this.setState({ gps, address });
+        this.props.form.setFieldsValue({
+          location: address
+        });
+      })
       .catch(error => console.error("Error", error));
   };
 
@@ -57,6 +60,37 @@ class CrisisReportForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+        const {
+          name,
+          phone,
+          location_2,
+          crisisType,
+          crisisDescription,
+          assistanceType,
+          assistanceDescription
+        } = values;
+        const form = new FormData();
+        form.append("your_name", name);
+        form.append("mobile_number", phone);
+        if (crisisType && crisisType.length > 0) {
+          for (const type of crisisType) {
+            form.append("crisis_type", type);
+          }
+        }
+        if (assistanceType && assistanceType.length > 0) {
+          for (const type of assistanceType) {
+            form.append("crisis_assistance", type);
+          }
+        }
+        form.append("crisis_status", "PD");
+        form.append("crisis_location1", JSON.stringify(this.state.gps)); // important because object makes no sense in REST
+        form.append("crisis_location2", location_2);
+        form.append("crisis_description", crisisDescription);
+        // form.append("crisis_description", crisisDescription);
+        console.log(form);
+        for (const val of form) {
+          console.log(val);
+        }
       }
     });
   };
@@ -64,23 +98,6 @@ class CrisisReportForm extends React.Component {
   handleConfirmBlur = e => {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue("password")) {
-      callback("Two passwords that you enter is inconsistent!");
-    } else {
-      callback();
-    }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(["confirm"], { force: true });
-    }
-    callback();
   };
 
   render() {
@@ -107,7 +124,7 @@ class CrisisReportForm extends React.Component {
     const prefixSelector = getFieldDecorator("prefix", {
       initialValue: "65"
     })(
-      <Select style={{ width: 70 }}>
+      <Select disabled style={{ width: 70 }}>
         <Option value="65">+65</Option>
       </Select>
     );
@@ -153,7 +170,6 @@ class CrisisReportForm extends React.Component {
             ]
           })(
             <PlacesAutocomplete
-              value={this.state.address}
               onChange={this.handleChange}
               onSelect={this.handleSelect}
             >
@@ -162,39 +178,40 @@ class CrisisReportForm extends React.Component {
                 suggestions,
                 getSuggestionItemProps,
                 loading
-              }) => (
-                <React.Fragment>
-                  <Input
-                    {...getInputProps({
-                      placeholder: "Search Places ...",
-                      className: "location-search-input"
-                    })}
-                  />
-                  <div className="autocomplete-dropdown-container">
-                    {loading && <div>Loading...</div>}
-                    {suggestions.map((suggestion, index) => {
-                      const className = suggestion.active
-                        ? "suggestion-item--active"
-                        : "suggestion-item";
-                      // inline style for demonstration purpose
-                      const style = suggestion.active
-                        ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                        : { backgroundColor: "#ffffff", cursor: "pointer" };
-                      return (
-                        <div
-                          key={index}
-                          {...getSuggestionItemProps(suggestion, {
-                            className,
-                            style
-                          })}
-                        >
-                          <span>{suggestion.description}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </React.Fragment>
-              )}
+              }) => {
+                return (
+                  <React.Fragment>
+                    <Input
+                      {...getInputProps({
+                        placeholder: "Search places..."
+                      })}
+                    />
+                    <div className="autocomplete-dropdown-container">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map((suggestion, index) => {
+                        const className = suggestion.active
+                          ? "suggestion-item--active"
+                          : "suggestion-item";
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                          : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return (
+                          <div
+                            key={index}
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </React.Fragment>
+                );
+              }}
             </PlacesAutocomplete>
           )}
         </FormItem>

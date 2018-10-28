@@ -14,7 +14,6 @@ class LoginForm extends React.Component {
         const form = new FormData();
         form.append("username", username);
         form.append("password", password);
-        console.log("before", this.props.flag);
         this.props
           .userLogin(form)
           .then(() => {
