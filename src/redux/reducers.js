@@ -3,13 +3,15 @@ import { combineReducers } from "redux";
 
 const initialState = {
   staff: {
-    flag: false
+    flag: false,
+    userList: null
   },
   system: {
     crisisType: null,
     assistanceType: null
   },
   common: {
+    flag: false,
     crises: null
   },
   modal: {
@@ -47,7 +49,7 @@ const staff = (state = initialState.staff, action) => {
   const { type, payload } = action;
   switch (type) {
     case actionTypes.USER_LOGIN_SUCCESS:
-      localStorage.setItem("token", payload.key);
+      localStorage.setItem("token", payload.key); // set token
       return {
         ...state,
         flag: true
@@ -56,6 +58,11 @@ const staff = (state = initialState.staff, action) => {
       return {
         ...state,
         flag: false
+      };
+    case actionTypes.FETCH_USER_LIST_SUCCESS:
+      return {
+        ...state,
+        userList: payload
       };
     default:
       return state;
@@ -69,6 +76,16 @@ const common = (state = initialState.common, action) => {
       return {
         ...state,
         crises: payload
+      };
+    case actionTypes.REPORT_CRISIS_SUCCESS:
+      return {
+        ...state,
+        flag: true
+      };
+    case actionTypes.REPORT_CRISIS_FAILURE:
+      return {
+        ...state,
+        flag: false
       };
     default:
       return state;

@@ -59,7 +59,6 @@ class CrisisReportForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
         const {
           name,
           phone,
@@ -69,6 +68,7 @@ class CrisisReportForm extends React.Component {
           assistanceType,
           assistanceDescription
         } = values;
+        console.log("submit clicked");
         const form = new FormData();
         form.append("your_name", name);
         form.append("mobile_number", phone);
@@ -86,11 +86,17 @@ class CrisisReportForm extends React.Component {
         form.append("crisis_location1", JSON.stringify(this.state.gps)); // important because object makes no sense in REST
         form.append("crisis_location2", location_2);
         form.append("crisis_description", crisisDescription);
-        // form.append("crisis_description", crisisDescription);
-        console.log(form);
-        for (const val of form) {
-          console.log(val);
-        }
+        form.append("crisis_assistance_description", assistanceDescription);
+        this.props
+          .reportCrises(form)
+          .then(() => {
+            if (this.props.flag) {
+              alert("Success");
+            } else {
+              alert("Failure");
+            }
+          })
+          .catch(error => console.log(error));
       }
     });
   };
@@ -297,7 +303,9 @@ class CrisisReportForm extends React.Component {
 
 CrisisReportForm.propTypes = {
   crisisType: PropTypes.array.isRequired,
-  assistanceType: PropTypes.array.isRequired
+  assistanceType: PropTypes.array.isRequired,
+  flag: PropTypes.bool.isRequired,
+  reportCrises: PropTypes.func.isRequired
 };
 
 export default Form.create()(CrisisReportForm);

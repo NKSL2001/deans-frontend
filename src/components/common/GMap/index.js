@@ -29,15 +29,16 @@ const createMarker = crisisList =>
   crisisList.map(crisis => {
     const key = crisis.crisis_id;
     const location =
-      crisis.crisis_location &&
-      crisis.crisis_location.split(",  ").map(val => parseFloat(val));
+      crisis.crisis_location1 && JSON.parse(crisis.crisis_location1);
     const type = crisis.crisis_type;
     const description = crisis.crisis_description;
+    console.log("crisis", crisis);
+    console.log("location", location);
     return (
       <Marker
         key={key}
-        lat={location && location[0]}
-        lng={location && location[1]}
+        lat={location && location["lat"]}
+        lng={location && location["lng"]}
         type={type}
         description={description}
       />

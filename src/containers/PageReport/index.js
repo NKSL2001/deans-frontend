@@ -4,7 +4,7 @@ import NavBar from "@components/common/NavBar";
 import Footer from "@components/common/Footer";
 import CrisisReportForm from "@components/PageReport/CrisisReportForm";
 import { connect } from "react-redux";
-import { getCrises, initSystem } from "@redux/actions";
+import { getCrises, initSystem, reportCrises } from "@redux/actions";
 
 import * as styles from "./style.scss";
 
@@ -32,6 +32,8 @@ class PageReport extends React.Component {
             <CrisisReportForm
               crisisType={this.props.crisisType || []}
               assistanceType={this.props.assistanceType || []}
+              reportCrises={this.props.reportCrises}
+              flag={this.props.flag}
             />
           </div>
         </div>
@@ -52,6 +54,7 @@ PageReport.propTypes = {
 const mapStateToProps = state => {
   const { system, common } = state;
   return {
+    flag: common && common.flag,
     crisisType: system && system.crisisType,
     assistanceType: system && system.assistanceType,
     crises: common && common.crises
@@ -60,7 +63,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   initSystem: () => dispatch(initSystem()),
-  getCrises: () => dispatch(getCrises())
+  getCrises: () => dispatch(getCrises()),
+  reportCrises: form => dispatch(reportCrises(form))
 });
 
 export default connect(

@@ -43,7 +43,7 @@ export const getCrises = () => {
     dispatch({
       type: actionTypes.FETCH_CRISIS_REQUESTED
     });
-    await api
+    api
       .getCrises()
       .then(response =>
         dispatch({
@@ -56,6 +56,39 @@ export const getCrises = () => {
           type: actionTypes.FETCH_CRISIS_FAILURE
         })
       );
+  };
+};
+
+export const getUserList = () => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.FETCH_USER_LIST_REQUESTED
+    });
+    api
+      .getUserList()
+      .then(response =>
+        dispatch({
+          type: actionTypes.FETCH_USER_LIST_SUCCESS,
+          payload: response.data
+        })
+      )
+      .catch(() =>
+        dispatch({
+          type: actionTypes.FETCH_USER_LIST_FAILURE
+        })
+      );
+  };
+};
+
+export const reportCrises = form => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.REPORT_CRISIS_REQUESTED
+    });
+    await api
+      .reportCrises(form)
+      .then(() => dispatch({ type: actionTypes.REPORT_CRISIS_SUCCESS }))
+      .catch(() => dispatch({ type: actionTypes.REPORT_CRISIS_FAILURE }));
   };
 };
 
