@@ -84,6 +84,36 @@ const staff = (state = initialState.staff, action) => {
         ...state,
         flag: false
       };
+    case actionTypes.ADD_USER_REQUESTED:
+      return {
+        ...state,
+        flag: false
+      };
+    case actionTypes.ADD_USER_SUCCESS:
+      return {
+        ...state,
+        flag: true
+      };
+    case actionTypes.ADD_USER_FAILURE:
+      return {
+        ...state,
+        flag: false
+      };
+    case actionTypes.EDIT_USER_REQUESTED:
+      return {
+        ...state,
+        flag: false
+      };
+    case actionTypes.EDIT_USER_SUCCESS:
+      return {
+        ...state,
+        flag: true
+      };
+    case actionTypes.EDIT_USER_FAILURE:
+      return {
+        ...state,
+        flag: false
+      };
     default:
       return state;
   }

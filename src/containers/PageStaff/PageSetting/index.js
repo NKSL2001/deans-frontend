@@ -27,10 +27,10 @@ class PageSetting extends React.Component {
           <Tag color="geekblue">Fire Fighting</Tag>
           <Tag color="geekblue">Gas Leak Control</Tag>
         </div>
-        <div className={styles.subHeader}>
+        {/* <div className={styles.subHeader}>
           <div>Social Media Account</div>
-        </div>
-        <div className={styles.socialMediaAccountContainer}>
+        </div> */}
+        {/* <div className={styles.socialMediaAccountContainer}>
           <div className={styles.item + " " + styles.label}>Social Media</div>
           <div className={styles.item + " " + styles.label}>Account</div>
           <div className={styles.item + " " + styles.label}>Password</div>
@@ -61,7 +61,7 @@ class PageSetting extends React.Component {
               <Button type="danger">Delete</Button>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className={styles.subHeader}>
           <div>Emergency Agencies</div>
           <Button>Add</Button>

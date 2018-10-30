@@ -125,6 +125,38 @@ export const resolveCrisis = id => {
   };
 };
 
+export const addUser = form => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.ADD_USER_REQUESTED
+    });
+    await api
+      .addUser(form)
+      .then(() => {
+        dispatch({
+          type: actionTypes.ADD_USER_SUCCESS
+        });
+      })
+      .catch(() => dispatch({ type: actionTypes.ADD_USER_FAILURE }));
+  };
+};
+
+export const editUser = (id, form) => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.EDIT_USER_REQUESTED
+    });
+    await api
+      .editUser(id, form)
+      .then(() => {
+        dispatch({
+          type: actionTypes.EDIT_USER_SUCCESS
+        });
+      })
+      .catch(() => dispatch({ type: actionTypes.EDIT_USER_FAILURE }));
+  };
+};
+
 export const showModal = (modalType, modalProps) => {
   return {
     type: actionTypes.MODAL_SHOW,

@@ -4,6 +4,8 @@ import { showModal, hideModal } from "@redux/actions";
 import CreateNewCrisis from "@components/common/Modals/CreateNewCrisis";
 import EditCrisis from "@components/common/Modals/EditCrisis";
 import DispatchCrisis from "@components/common/Modals/DispatchCrisis";
+import AddUser from "@components/common/Modals/AddUser";
+import EditUser from "@components/common/Modals/EditUser";
 
 const ModalContainer = props => {
   switch (props.modalType) {
@@ -17,6 +19,10 @@ const ModalContainer = props => {
       return (
         <DispatchCrisis {...props.modalProps} hideModal={props.hideModal} />
       );
+    case "ADD_USER":
+      return <AddUser {...props.modalProps} hideModal={props.hideModal} />;
+    case "EDIT_USER":
+      return <EditUser {...props.modalProps} hideModal={props.hideModal} />;
     default:
       return null;
   }

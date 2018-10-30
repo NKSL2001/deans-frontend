@@ -49,13 +49,45 @@ export const getAssistanceType = () => {
 };
 
 export const dispatchCrisis = id => {
-  return axios.put("/crises/update-partial/" + id + "/", {
-    crisis_status: "DP"
-  });
+  return axios.put(
+    "/crises/update-partial/" + id + "/",
+    {
+      crisis_status: "DP"
+    },
+    {
+      headers: {
+        Authorization: `Token ${_getAuthToken()}`
+      }
+    }
+  );
 };
 
 export const resolveCrisis = id => {
-  return axios.put("/crises/update-partial/" + id + "/", {
-    crisis_status: "RS"
+  return axios.put(
+    "/crises/update-partial/" + id + "/",
+    {
+      crisis_status: "RS"
+    },
+    {
+      headers: {
+        Authorization: `Token ${_getAuthToken()}`
+      }
+    }
+  );
+};
+
+export const addUser = form => {
+  return axios.post("/users/", form, {
+    headers: {
+      Authorization: `Token ${_getAuthToken()}`
+    }
+  });
+};
+
+export const editUser = (id, form) => {
+  return axios.put("/users/update-partial/" + id + "/", form, {
+    headers: {
+      Authorization: `Token ${_getAuthToken()}`
+    }
   });
 };

@@ -19,6 +19,7 @@ const resolve = (id, flag, resolveCrisis, getCrises) => {
           //   getCrises();
           // } else alert("Failure");
           message.success("Crisis has been resolved.", 2);
+          getCrises();
         })
         .catch(error => console.log(error));
     },
@@ -59,6 +60,7 @@ const createDataSource = (
   editCrisis,
   resolveCrisis,
   getCrises
+  // eslint-disable-next-line
 ) =>
   crisisList.map(crisis => {
     const id = crisis.crisis_id;

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Modal, Button, Table } from "antd";
+import { Button, Table, Switch } from "antd";
 import * as styles from "./style.scss";
 
 const COLUMNS = [
@@ -10,7 +10,7 @@ const COLUMNS = [
     key: "username"
   },
   {
-    title: "Admin Status",
+    title: "Is Admin",
     dataIndex: "adminStatus",
     key: "adminStatus"
   },
@@ -21,29 +21,44 @@ const COLUMNS = [
   }
 ];
 
-const createDataSource = arr => {
+const createDataSource = (arr, editUser, toggleAdmin) => {
   return arr.map(val => ({
     key: val.id,
     username: val.username,
-    adminStatus: val.is_staff ? "Yes" : "No",
+    adminStatus: (
+      <Switch
+        defaultChecked={val.is_staff}
+        onChange={checked => toggleAdmin(val.id, checked)}
+      />
+    ),
     action: (
       <div className={styles.actions}>
-        <Button type="dashed">Edit</Button>
+        <Button type="dashed" onClick={editUser}>
+          Change Password
+        </Button>
       </div>
     )
   }));
 };
 
 const UserTable = props => {
+  const { editUser } = props;
+  const toggleAdmin = (id, isAdmin) => {
+    const form = new FormData();
+    form.append("is_staff", isAdmin);
+    editUser(id, form);
+  };
   return (
-    <Table dataSource={createDataSource(props.userList)} columns={COLUMNS} />
+    <Table
+      dataSource={createDataSource(props.userList, editUser, toggleAdmin)}
+      columns={COLUMNS}
+    />
   );
 };
 
 UserTable.propTypes = {
-  // editCrisis: PropTypes.func.isRequired,
-  // dispatchCrisis: PropTypes.func.isRequired
-  userList: PropTypes.array.isRequired
+  userList: PropTypes.array.isRequired,
+  editUser: PropTypes.func.isRequired
 };
 
 export default UserTable;
