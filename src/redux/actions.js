@@ -109,6 +109,22 @@ export const userLogin = form => {
   };
 };
 
+export const resolveCrisis = id => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.RESOLVE_CRISIS_REQUESTED
+    });
+    await api
+      .resolveCrisis(id)
+      .then(() => {
+        dispatch({
+          type: actionTypes.RESOLVE_CRISIS_SUCCESS
+        });
+      })
+      .catch(() => dispatch({ type: actionTypes.RESOLVE_CRISIS_FAILURE }));
+  };
+};
+
 export const showModal = (modalType, modalProps) => {
   return {
     type: actionTypes.MODAL_SHOW,

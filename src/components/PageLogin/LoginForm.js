@@ -18,10 +18,10 @@ class LoginForm extends React.Component {
           .userLogin(form)
           .then(() => {
             if (this.props.flag) {
-              message.success("Login successful!", 1);
+              message.success("Login successful!", 2);
               this.props.setRedirect();
             } else {
-              message.error("Login failed, please try again.", 1);
+              message.error("Login failed, please try again.", 2);
             }
           })
           .catch(() => {

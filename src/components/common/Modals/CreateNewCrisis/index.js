@@ -12,7 +12,12 @@ const CreateNewCrisis = props => {
       onCancel={props.hideModal}
       footer={null}
     >
-      <CrisisReportForm />
+      <CrisisReportForm
+        crisisType={{}}
+        assistanceType={{}}
+        flag={false}
+        reportCrises={null}
+      />
     </Modal>
   );
 };

@@ -1,10 +1,22 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Modal from "antd/lib/modal";
 import CrisisDispatchForm from "./CrisisDispatchForm";
 import * as styles from "./style.scss";
 
 const DispatchCrisis = props => {
+  const {
+    your_name,
+    mobile_number,
+    crisis_location1,
+    crisis_location2,
+    crisis_time,
+    crisis_type,
+    crisis_description,
+    crisis_assistance,
+    crisis_assistance_description
+  } = props.crisis;
   return (
     <Modal
       centered
@@ -19,26 +31,28 @@ const DispatchCrisis = props => {
           The following information will be submitted to emergency agencies.
         </div>
         <div className={styles.summaryContainer}>
+          <div className={styles.label}>Reported Time:</div>
+          <div className={styles.value}>{crisis_time}</div>
           <div className={styles.label}>Reporter Name:</div>
-          <div className={styles.value}>James Bond</div>
+          <div className={styles.value}>{your_name}</div>
           <div className={styles.label}>Mobile Number:</div>
-          <div className={styles.value}>+65 12348888</div>
+          <div className={styles.value}>+65 {mobile_number}</div>
           <div className={styles.label}>Location:</div>
-          <div className={styles.value}>50 Nanyang Walk 639929</div>
+          <div className={styles.value}>{crisis_location1}</div>
           <div className={styles.label}>Location 2:</div>
-          <div className={styles.value}>
-            #04-01, BLk B, Hall of Residence 16
-          </div>
+          <div className={styles.value}>{crisis_location2}</div>
           <div className={styles.label}>Crisis Type:</div>
           <div className={styles.value}>
-            Rescue and Evacuation, Fire Fighting
+            {crisis_type.map(val => props.crisisType[val]).join(", ")}
           </div>
           <div className={styles.label}>Crisis Description:</div>
-          <div className={styles.value}>Fire in the hole!</div>
+          <div className={styles.value}>{crisis_description}</div>
           <div className={styles.label}>Assistance Type:</div>
-          <div className={styles.value}>Ambulance, Fire Brigade</div>
+          <div className={styles.value}>
+            {crisis_assistance.map(val => props.assistanceType[val]).join(", ")}
+          </div>
           <div className={styles.label}>Assistance Description:</div>
-          <div className={styles.value}>Need immediate medical help</div>
+          <div className={styles.value}>{crisis_assistance_description}</div>
         </div>
       </div>
       <div className={styles.crisisDispatchForm}>
@@ -49,7 +63,18 @@ const DispatchCrisis = props => {
 };
 
 DispatchCrisis.propTypes = {
-  hideModal: PropTypes.func.isRequired
+  hideModal: PropTypes.func.isRequired,
+  crisis: PropTypes.object.isRequired,
+  crisisType: PropTypes.func.isRequired,
+  assistanceType: PropTypes.func.isRequired
 };
 
-export default DispatchCrisis;
+const mapStateToProps = state => {
+  const { system } = state;
+  return {
+    crisisType: system && system.crisisType,
+    assistanceType: system && system.assistanceType
+  };
+};
+
+export default connect(mapStateToProps)(DispatchCrisis);

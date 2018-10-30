@@ -9,22 +9,6 @@ import PlacesAutocomplete, {
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-// const crisisType = [
-//   "Casualty",
-//   "Hazardous Air Condition",
-//   "Fire Breakout",
-//   "Gas Leaks",
-//   "Crisis Not Listed"
-// ];
-
-// const assistanceType = [
-//   "Emergency Ambulance",
-//   "Rescue and Evacuation",
-//   "Fire Fighting",
-//   "Gas Leak Control",
-//   "Assistance Not Listed"
-// ];
-
 const createSelectionList = obj =>
   Object.keys(obj).map((val, index) => (
     <Option value={val} key={index}>
@@ -280,17 +264,6 @@ class CrisisReportForm extends React.Component {
             />
           )}
         </FormItem>
-        {/* <FormItem {...tailFormItemLayout}>
-          {getFieldDecorator("agreement", {
-            valuePropName: "checked",
-            required: true
-          })(
-            <Checkbox>
-              I understand that fake report is a breach of law and I will be
-              arrested, fined and jailed.
-            </Checkbox>
-          )}
-        </FormItem> */}
         <FormItem {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Submit

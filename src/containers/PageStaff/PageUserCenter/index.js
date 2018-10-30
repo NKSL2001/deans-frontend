@@ -18,7 +18,7 @@ class PageUserCenter extends React.Component {
         <div className={styles.subHeader}>
           <div className={styles.item}>User List</div>
           <div className={styles.item}>
-            <Button type="primary">Add user</Button>
+            <Button>Add user</Button>
           </div>
         </div>
         <div className={styles.userTable}>

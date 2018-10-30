@@ -48,6 +48,11 @@ const system = (state = initialState.system, action) => {
 const staff = (state = initialState.staff, action) => {
   const { type, payload } = action;
   switch (type) {
+    case actionTypes.USER_LOGIN_REQUESTED:
+      return {
+        ...state,
+        flag: false // reset flag
+      };
     case actionTypes.USER_LOGIN_SUCCESS:
       localStorage.setItem("token", payload.key); // set token
       return {
@@ -64,6 +69,21 @@ const staff = (state = initialState.staff, action) => {
         ...state,
         userList: payload
       };
+    case actionTypes.RESOLVE_CRISIS_REQUESTED:
+      return {
+        ...state,
+        flag: false // reset flag
+      };
+    case actionTypes.RESOLVE_CRISIS_SUCCESS:
+      return {
+        ...state,
+        flag: true
+      };
+    case actionTypes.RESOLVE_CRISIS_FAILURE:
+      return {
+        ...state,
+        flag: false
+      };
     default:
       return state;
   }
@@ -76,6 +96,11 @@ const common = (state = initialState.common, action) => {
       return {
         ...state,
         crises: payload
+      };
+    case actionTypes.REPORT_CRISIS_REQUESTED:
+      return {
+        ...state,
+        flag: false // reset flag
       };
     case actionTypes.REPORT_CRISIS_SUCCESS:
       return {

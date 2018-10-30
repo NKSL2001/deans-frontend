@@ -3,19 +3,6 @@ import PropTypes from "prop-types";
 import { Modal, Button, Table } from "antd";
 import * as styles from "./style.scss";
 
-// const deleteUser = () => {
-//   Modal.confirm({
-//     title: "Delete user?",
-//     content: "This action is invertible",
-//     onOk() {
-//       console.log("Confirmed");
-//     },
-//     onCancel() {
-//       console.log("Cancel");
-//     }
-//   });
-// };
-
 const COLUMNS = [
   {
     title: "Username",
@@ -41,7 +28,7 @@ const createDataSource = arr => {
     adminStatus: val.is_staff ? "Yes" : "No",
     action: (
       <div className={styles.actions}>
-        <Button>Edit</Button>
+        <Button type="dashed">Edit</Button>
       </div>
     )
   }));

@@ -47,3 +47,15 @@ export const getCrisisType = () => {
 export const getAssistanceType = () => {
   return axios.get("/crisisassistance");
 };
+
+export const dispatchCrisis = id => {
+  return axios.put("/crises/update-partial/" + id + "/", {
+    crisis_status: "DP"
+  });
+};
+
+export const resolveCrisis = id => {
+  return axios.put("/crises/update-partial/" + id + "/", {
+    crisis_status: "RS"
+  });
+};

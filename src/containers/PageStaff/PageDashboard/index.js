@@ -36,15 +36,7 @@ class PageDashboard extends React.Component {
           </div>
         </div>
         <div className={styles.crisisListTable}>
-          <CrisisListTable
-            crises={this.props.crises || []}
-            editCrisis={(event, modalProps) =>
-              this.props.showModal("EDIT_CRISIS", modalProps)
-            }
-            dispatchCrisis={(event, modalProps) =>
-              this.props.showModal("DISPATCH_CRISIS", modalProps)
-            }
-          />
+          <CrisisListTable crises={this.props.crises || []} />
         </div>
       </div>
     );

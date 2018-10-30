@@ -1,43 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Modal, Button, Table } from "antd";
+import { showModal, resolveCrisis, getCrises } from "@redux/actions";
+import { Modal, Button, Table, message } from "antd";
 import * as styles from "./style.scss";
 
-const resolveCrisis = () => {
+const resolve = (id, flag, resolveCrisis, getCrises) => {
   Modal.confirm({
     title: "Resolve crisis?",
     content:
       "The crisis will be marked as resolved. You won't be able to open it again.",
     onOk() {
-      console.log("Confirmed");
+      resolveCrisis(id)
+        .then(() => {
+          // console.log(flag);
+          // if (flag) {
+          //   alert("Success");
+          //   getCrises();
+          // } else alert("Failure");
+          message.success("Crisis has been resolved.", 2);
+        })
+        .catch(error => console.log(error));
     },
     onCancel() {
       console.log("Cancel");
     }
   });
 };
-
-// const dataSource = [
-//   {
-//     key: "1",
-//     crisisType: "Fire",
-//     location: "Jurong West",
-//     status: "Pending dispatch"
-//   },
-//   {
-//     key: "2",
-//     crisisType: "Injury",
-//     location: "Marina Bay Sand",
-//     status: "Dispatched"
-//   },
-//   {
-//     key: "3",
-//     crisisType: "Injury",
-//     location: "One North",
-//     status: "Resolved"
-//   }
-// ];
 
 const COLUMNS = [
   {
@@ -62,26 +51,47 @@ const COLUMNS = [
   }
 ];
 
-const createDataSource = (crisisList, crisisType, editCrisis, dispatchCrisis) =>
+const createDataSource = (
+  flag,
+  crisisList,
+  crisisType,
+  dispatchCrisis,
+  editCrisis,
+  resolveCrisis,
+  getCrises
+) =>
   crisisList.map(crisis => {
-    const key = crisis.crisis_id;
+    const id = crisis.crisis_id;
     const type = crisis.crisis_type
       .map(val => crisisType && crisisType[val])
       .join(", ");
     const location = "TODO";
     const status = crisis.crisis_status;
     return {
-      key: key,
+      key: id,
       crisisType: type,
       location: location,
       status: status,
       action: (
         <div className={styles.actions}>
-          <Button type="dashed" onClick={editCrisis}>
+          <Button
+            disabled={status === "RS" ? true : false}
+            type="dashed"
+            onClick={() => editCrisis(crisis)}
+          >
             Edit
           </Button>
-          <Button onClick={dispatchCrisis}>Dispatch</Button>
-          <Button onClick={resolveCrisis} type="danger">
+          <Button
+            disabled={status === "RS" ? true : false}
+            onClick={() => dispatchCrisis(crisis)}
+          >
+            Dispatch
+          </Button>
+          <Button
+            disabled={status === "RS" ? true : false}
+            onClick={() => resolve(id, flag, resolveCrisis, getCrises)}
+            type="danger"
+          >
             Resolve
           </Button>
         </div>
@@ -91,15 +101,24 @@ const createDataSource = (crisisList, crisisType, editCrisis, dispatchCrisis) =>
   });
 
 const CrisisListTable = props => {
-  const { crises, crisisType } = props;
-  const { editCrisis, dispatchCrisis } = props;
+  const { crises, crisisType, resolveCrisis, flag, getCrises } = props;
+  const dispatchCrisis = crisis => {
+    props.showModal("DISPATCH_CRISIS", { crisis });
+  };
+
+  const editCrisis = crisis => {
+    props.showModal("EDIT_CRISIS", { crisis });
+  };
   return (
     <Table
       dataSource={createDataSource(
+        flag,
         crises,
         crisisType,
+        dispatchCrisis,
         editCrisis,
-        dispatchCrisis
+        resolveCrisis,
+        getCrises
       )}
       columns={COLUMNS}
     />
@@ -107,18 +126,29 @@ const CrisisListTable = props => {
 };
 
 CrisisListTable.propTypes = {
+  flag: PropTypes.bool.isRequired,
   crises: PropTypes.array.isRequired,
-  editCrisis: PropTypes.func.isRequired,
-  dispatchCrisis: PropTypes.func.isRequired,
   // from redux
   crisisType: PropTypes.func.isRequired,
-  assistanceType: PropTypes.func.isRequired
+  assistanceType: PropTypes.func.isRequired,
+  getCrises: PropTypes.func.isRequired,
+  resolveCrisis: PropTypes.func.isRequired,
+  showModal: PropTypes.func.isRequired
 };
 
-export default connect(state => {
-  const { system } = state;
-  return {
-    crisisType: system && system.crisisType,
-    assistanceType: system && system.assistanceType
-  };
-})(CrisisListTable);
+export default connect(
+  state => {
+    const { system, staff } = state;
+    return {
+      flag: staff.flag || false,
+      crisisType: system && system.crisisType,
+      assistanceType: system && system.assistanceType
+    };
+  },
+  dispatch => ({
+    resolveCrisis: id => dispatch(resolveCrisis(id)),
+    getCrises: () => dispatch(getCrises()),
+    showModal: (modalType, modalProps) =>
+      dispatch(showModal(modalType, modalProps))
+  })
+)(CrisisListTable);
