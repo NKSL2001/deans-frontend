@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import NavBar from "@components/common/NavBar";
 import Footer from "@components/common/Footer";
-import CrisisReportForm from "@components/PageReport/CrisisReportForm";
+import CrisisReportForm from "./CrisisReportForm";
 import { connect } from "react-redux";
 import { getCrises, initSystem, reportCrises } from "@redux/actions";
 

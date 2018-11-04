@@ -5,7 +5,7 @@ import { getCrises, initSystem } from "@redux/actions";
 import GMap from "@components/common/GMap";
 import NavBar from "@components/common/NavBar";
 import Footer from "@components/common/Footer";
-import ActiveCrisisListTable from "@components/PageHome/ActiveCrisisListTable";
+import ActiveCrisisListTable from "./ActiveCrisisListTable";
 
 import * as styles from "./style.scss";
 
