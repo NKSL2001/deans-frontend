@@ -114,6 +114,36 @@ const staff = (state = initialState.staff, action) => {
         ...state,
         flag: false
       };
+    case actionTypes.ADD_CRISIS_TYPE_REQUESTED:
+      return {
+        ...state,
+        flag: false
+      };
+    case actionTypes.ADD_CRISIS_TYPE_SUCCESS:
+      return {
+        ...state,
+        flag: true
+      };
+    case actionTypes.ADD_CRISIS_TYPE_FAILURE:
+      return {
+        ...state,
+        flag: false
+      };
+    case actionTypes.ADD_ASSISTANCE_TYPE_REQUESTED:
+      return {
+        ...state,
+        flag: false
+      };
+    case actionTypes.ADD_ASSISTANCE_TYPE_SUCCESS:
+      return {
+        ...state,
+        flag: true
+      };
+    case actionTypes.ADD_ASSISTANCE_TYPE_FAILURE:
+      return {
+        ...state,
+        flag: false
+      };
     default:
       return state;
   }

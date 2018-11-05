@@ -3,6 +3,23 @@ import { Button, Input, Tag } from "antd";
 import * as styles from "./style.scss";
 
 class PageSetting extends React.Component {
+  state = {
+    reportingEmail: {
+      edited: false,
+      content: null
+    }
+  };
+
+  handleEmailChange = e => {
+    this.setState({
+      ...this.state,
+      reportingEmail: {
+        edited: true,
+        content: e.target.value
+      }
+    });
+  };
+
   render() {
     return (
       <div>
@@ -103,10 +120,15 @@ class PageSetting extends React.Component {
         </div>
         <div className={styles.subHeader}>
           <div>Summary Reporting Email</div>
-          <Button type="primary">Save</Button>
+          <Button type="primary" disabled={!this.state.reportingEmail.edited}>
+            Save
+          </Button>
         </div>
         <div className={styles.summaryReportingEmailContainer}>
-          <Input defaultValue="prime-minister@gmail.com" />
+          <Input
+            defaultValue="prime-minister@gmail.com"
+            onChange={this.handleEmailChange}
+          />
         </div>
       </div>
     );

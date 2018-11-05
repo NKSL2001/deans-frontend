@@ -157,6 +157,34 @@ export const editUser = (id, form) => {
   };
 };
 
+export const addCrisisType = form => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.ADD_CRISIS_TYPE_REQUESTED
+    });
+    await api
+      .addCrisisType(form)
+      .then(() => {
+        dispatch({ type: actionTypes.ADD_CRISIS_TYPE_SUCCESS });
+      })
+      .catch(() => dispatch({ type: actionTypes.ADD_CRISIS_TYPE_FAILURE }));
+  };
+};
+
+export const addAssistanceType = form => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.ADD_ASSISTANCE_TYPE_REQUESTED
+    });
+    await api
+      .addAssistanceType(form)
+      .then(() => {
+        dispatch({ type: actionTypes.ADD_ASSISTANCE_TYPE_SUCCESS });
+      })
+      .catch(() => dispatch({ type: actionTypes.ADD_ASSISTANCE_TYPE_FAILURE }));
+  };
+};
+
 export const showModal = (modalType, modalProps) => {
   return {
     type: actionTypes.MODAL_SHOW,

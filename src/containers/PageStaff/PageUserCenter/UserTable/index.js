@@ -21,44 +21,49 @@ const COLUMNS = [
   }
 ];
 
-const createDataSource = (arr, editUser, toggleAdmin) => {
-  return arr.map(val => ({
-    key: val.id,
-    username: val.username,
-    adminStatus: (
-      <Switch
-        defaultChecked={val.is_staff}
-        onChange={checked => toggleAdmin(val.id, checked)}
-      />
-    ),
-    action: (
-      <div className={styles.actions}>
-        <Button type="dashed" onClick={editUser}>
-          Change Password
-        </Button>
-      </div>
-    )
-  }));
-};
-
 const UserTable = props => {
-  const { editUser } = props;
+  const { editUser, showEditUserModal } = props;
+
   const toggleAdmin = (id, isAdmin) => {
     const form = new FormData();
     form.append("is_staff", isAdmin);
     editUser(id, form);
   };
+
+  const createDataSource = arr => {
+    return arr.map(val => ({
+      key: val.id,
+      username: val.username,
+      adminStatus: (
+        <Switch
+          defaultChecked={val.is_staff}
+          onChange={checked => toggleAdmin(val.id, checked)}
+        />
+      ),
+      action: (
+        <div className={styles.actions}>
+          <Button
+            type="dashed"
+            onClick={() =>
+              showEditUserModal({ userId: val.id, editUser: editUser })
+            }
+          >
+            Change Password
+          </Button>
+        </div>
+      )
+    }));
+  };
+
   return (
-    <Table
-      dataSource={createDataSource(props.userList, editUser, toggleAdmin)}
-      columns={COLUMNS}
-    />
+    <Table dataSource={createDataSource(props.userList)} columns={COLUMNS} />
   );
 };
 
 UserTable.propTypes = {
   userList: PropTypes.array.isRequired,
-  editUser: PropTypes.func.isRequired
+  editUser: PropTypes.func.isRequired,
+  showEditUserModal: PropTypes.func.isRequired
 };
 
 export default UserTable;

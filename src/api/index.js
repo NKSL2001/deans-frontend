@@ -91,3 +91,19 @@ export const editUser = (id, form) => {
     }
   });
 };
+
+export const addCrisisType = form => {
+  return axios.put("/crisistype/", form, {
+    headers: {
+      Authorization: `Token ${_getAuthToken()}`
+    }
+  });
+};
+
+export const addAssistanceType = form => {
+  return axios.put("/crisisassistance/", form, {
+    headers: {
+      Authorization: `Token ${_getAuthToken()}`
+    }
+  });
+};
