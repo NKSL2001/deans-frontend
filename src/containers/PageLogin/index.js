@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import { userLogin } from "@redux/actions";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
-import LoginForm from "@components/PageLogin/LoginForm";
-import NavBar from "@components/common/NavBar";
-import Footer from "@components/common/Footer";
+import LoginForm from "./LoginForm";
+import NavBar from "@components/NavBar";
+import Footer from "@components/Footer";
 import * as styles from "./style.scss";
 
 // eslint-ignore-next-line

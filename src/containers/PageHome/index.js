@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCrises, initSystem } from "@redux/actions";
-import GMap from "@components/common/GMap";
-import NavBar from "@components/common/NavBar";
-import Footer from "@components/common/Footer";
+import GMap from "@components/GMap";
+import NavBar from "@components/NavBar";
+import Footer from "@components/Footer";
 import ActiveCrisisListTable from "./ActiveCrisisListTable";
 
 import * as styles from "./style.scss";

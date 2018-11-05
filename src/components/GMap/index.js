@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Marker from "@components/common/Marker";
+import Marker from "@components/Marker";
 import PropTypes from "prop-types";
 import GoogleMapReact from "google-map-react";
 

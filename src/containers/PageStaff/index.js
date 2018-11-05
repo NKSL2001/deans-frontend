@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import * as ROUTES from "src/routes";
-import NavBar from "@components/common/NavBar";
-import Footer from "@components/common/Footer";
-import Menu from "@components/PageStaff/Menu";
+import NavBar from "@components/NavBar";
+import Footer from "@components/Footer";
+import Menu from "./Menu";
 import PageDashboard from "./PageDashboard";
 import PageUserCenter from "./PageUserCenter";
 import PageSetting from "./PageSetting";

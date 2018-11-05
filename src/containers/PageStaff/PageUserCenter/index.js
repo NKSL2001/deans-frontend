@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUserList, showModal, editUser } from "@redux/actions";
 import { Button } from "antd";
-import UserTable from "@components/PageStaff/UserTable";
+import UserTable from "./UserTable";
 import * as styles from "./style.scss";
 
 class PageUserCenter extends React.Component {

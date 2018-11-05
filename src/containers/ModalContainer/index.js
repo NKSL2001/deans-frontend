@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { showModal, hideModal } from "@redux/actions";
-import CreateNewCrisis from "@components/common/Modals/CreateNewCrisis";
-import EditCrisis from "@components/common/Modals/EditCrisis";
-import DispatchCrisis from "@components/common/Modals/DispatchCrisis";
-import AddUser from "@components/common/Modals/AddUser";
-import EditUser from "@components/common/Modals/EditUser";
+import CreateNewCrisis from "./CreateNewCrisis";
+import EditCrisis from "./EditCrisis";
+import DispatchCrisis from "./DispatchCrisis";
+import AddUser from "./AddUser";
+import EditUser from "./EditUser";
 
 const ModalContainer = props => {
   switch (props.modalType) {
