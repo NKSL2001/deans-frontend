@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import * as api from "@api";
 
-export const initSystem = () => {
+export const fetchTypes = () => {
   return async dispatch => {
     dispatch({
       type: actionTypes.FETCH_CRISIS_TYPE_REQUESTED
@@ -184,6 +184,27 @@ export const addAssistanceType = form => {
       .catch(() => dispatch({ type: actionTypes.ADD_ASSISTANCE_TYPE_FAILURE }));
   };
 };
+
+export const getEmergencyAgencies = () => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.FETCH_EMERGENCY_AGENCIES_REQUESTED
+    });
+    api
+      .getEmergencyAgencies()
+      .then(response =>
+        dispatch({
+          type: actionTypes.FETCH_EMERGENCY_AGENCIES_SUCCESS,
+          payload: response.data
+        })
+      )
+      .catch(() =>
+        dispatch({
+          type: actionTypes.FETCH_EMERGENCY_AGENCIES_FAILURE
+        })
+      );
+  };
+}
 
 export const showModal = (modalType, modalProps) => {
   return {

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCrises, initSystem } from "@redux/actions";
+import { getCrises, fetchTypes } from "@redux/actions";
 import GMap from "@components/GMap";
 import NavBar from "@components/NavBar";
 import Footer from "@components/Footer";
@@ -11,7 +11,7 @@ import * as styles from "./style.scss";
 
 class PageHome extends React.Component {
   componentDidMount() {
-    this.props.initSystem();
+    this.props.fetchTypes();
     this.fetchData();
   }
 
@@ -43,7 +43,7 @@ class PageHome extends React.Component {
 
 PageHome.propTypes = {
   crises: PropTypes.array,
-  initSystem: PropTypes.func.isRequired,
+  fetchTypes: PropTypes.func.isRequired,
   getCrises: PropTypes.func.isRequired
 };
 
@@ -57,7 +57,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  initSystem: () => dispatch(initSystem()),
+  fetchTypes: () => dispatch(fetchTypes()),
   getCrises: () => dispatch(getCrises())
 });
 

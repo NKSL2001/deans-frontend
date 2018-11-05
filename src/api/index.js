@@ -19,7 +19,7 @@ const _getAuthToken = () => {
 };
 
 export const getCrises = () => {
-  return axios.get("/crises");
+  return axios.get("/crises/");
 };
 
 export const reportCrises = form => {
@@ -33,7 +33,7 @@ export const userLogin = form => {
 };
 
 export const getUserList = () => {
-  return axios.get("/users", {
+  return axios.get("/users/", {
     headers: {
       Authorization: `Token ${_getAuthToken()}`
     }
@@ -41,11 +41,11 @@ export const getUserList = () => {
 };
 
 export const getCrisisType = () => {
-  return axios.get("/crisistype");
+  return axios.get("/crisistype/");
 };
 
 export const getAssistanceType = () => {
-  return axios.get("/crisisassistance");
+  return axios.get("/crisisassistance/");
 };
 
 export const dispatchCrisis = id => {
@@ -93,7 +93,7 @@ export const editUser = (id, form) => {
 };
 
 export const addCrisisType = form => {
-  return axios.put("/crisistype/", form, {
+  return axios.post("/crisistype/", form, {
     headers: {
       Authorization: `Token ${_getAuthToken()}`
     }
@@ -101,9 +101,13 @@ export const addCrisisType = form => {
 };
 
 export const addAssistanceType = form => {
-  return axios.put("/crisisassistance/", form, {
+  return axios.post("/crisisassistance/", form, {
     headers: {
       Authorization: `Token ${_getAuthToken()}`
     }
   });
 };
+
+export const getEmergencyAgencies = () => {
+  return axios.get("/emergencyagencies/");
+}

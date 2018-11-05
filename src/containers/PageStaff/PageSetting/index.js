@@ -1,5 +1,15 @@
 import React from "react";
-import { Button, Input, Tag } from "antd";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+import {
+  addCrisisType,
+  addAssistanceType,
+  fetchTypes,
+  getEmergencyAgencies
+} from "@redux/actions";
+import { Button, Input, Tag, message } from "antd";
+import EmergencyAgenciesTable from "./EmergencyAgenciesTable";
 import * as styles from "./style.scss";
 
 class PageSetting extends React.Component {
@@ -8,6 +18,35 @@ class PageSetting extends React.Component {
       edited: false,
       content: null
     }
+  };
+
+  componentDidMount() {
+    this.props.fetchTypes();
+    this.props.getEmergencyAgencies();
+  }
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.crisisType !== this.props.crisisType) this.createCrisisTags();
+  };
+
+  createCrisisTags = () => {
+    const { crisisType } = this.props;
+    if (!crisisType) return [];
+    return Object.keys(crisisType).map((val, index) => (
+      <Tag color="purple" key={index}>
+        {crisisType[val]}
+      </Tag>
+    ));
+  };
+
+  createAssistanceTags = () => {
+    const { assistanceType } = this.props;
+    if (!assistanceType) return [];
+    return Object.keys(assistanceType).map((val, index) => (
+      <Tag color="geekblue" key={index}>
+        {assistanceType[val]}
+      </Tag>
+    ));
   };
 
   handleEmailChange = e => {
@@ -20,6 +59,16 @@ class PageSetting extends React.Component {
     });
   };
 
+  addCrisisType = () => {
+    const name = prompt("Enter the name of new crisis");
+    const form = new FormData();
+    form.append("name", name);
+    this.props
+      .addCrisisType(form)
+      .then(() => message.success("Success!"))
+      .catch(() => message.error("Error!"));
+  };
+
   render() {
     return (
       <div>
@@ -28,22 +77,12 @@ class PageSetting extends React.Component {
           <div>Crisis Type</div>
           <Button>Add</Button>
         </div>
-        <div className={styles.tagContainer}>
-          <Tag color="purple">Casualty</Tag>
-          <Tag color="purple">Hazardous Air Condition</Tag>
-          <Tag color="purple">Fire Breakout</Tag>
-          <Tag color="purple">Gas Leaks</Tag>
-        </div>
+        <div className={styles.tagContainer}>{this.createCrisisTags()}</div>
         <div className={styles.subHeader}>
           <div>Assistance Type</div>
           <Button>Add</Button>
         </div>
-        <div className={styles.tagContainer}>
-          <Tag color="geekblue">Emergency Ambulance</Tag>
-          <Tag color="geekblue">Rescue and Evacuation</Tag>
-          <Tag color="geekblue">Fire Fighting</Tag>
-          <Tag color="geekblue">Gas Leak Control</Tag>
-        </div>
+        <div className={styles.tagContainer}>{this.createAssistanceTags()}</div>
         {/* <div className={styles.subHeader}>
           <div>Social Media Account</div>
         </div> */}
@@ -81,42 +120,12 @@ class PageSetting extends React.Component {
         </div> */}
         <div className={styles.subHeader}>
           <div>Emergency Agencies</div>
-          <Button>Add</Button>
+          <Button onClick={this.addCrisisType}>Add</Button>
         </div>
         <div className={styles.emergencyAgenciesContainer}>
-          <div className={styles.item + " " + styles.label}>Agency</div>
-          <div className={styles.item + " " + styles.label}>Phone Number</div>
-          <div className={styles.item + " " + styles.label}>Actions</div>
-          <div className={styles.item}>Singapore Civil Defence Force</div>
-          <div className={styles.item}>
-            <Input defaultValue="12345678" />
-          </div>
-          <div className={styles.item}>
-            <div className={styles.actions}>
-              <Button type="primary">Save</Button>
-              <Button type="danger">Delete</Button>
-            </div>
-          </div>
-          <div className={styles.item}>Singapore Power</div>
-          <div className={styles.item}>
-            <Input defaultValue="12345678" />
-          </div>
-          <div className={styles.item}>
-            <div className={styles.actions}>
-              <Button type="primary">Save</Button>
-              <Button type="danger">Delete</Button>
-            </div>
-          </div>
-          <div className={styles.item}>Ministry of Truth</div>
-          <div className={styles.item}>
-            <Input defaultValue="12345678" />
-          </div>
-          <div className={styles.item}>
-            <div className={styles.actions}>
-              <Button type="primary">Save</Button>
-              <Button type="danger">Delete</Button>
-            </div>
-          </div>
+          <EmergencyAgenciesTable
+            emergencyAgencies={this.props.emergencyAgencies || []}
+          />
         </div>
         <div className={styles.subHeader}>
           <div>Summary Reporting Email</div>
@@ -135,4 +144,33 @@ class PageSetting extends React.Component {
   }
 }
 
-export default PageSetting;
+const mapStateToProps = state => {
+  const { system } = state;
+  return {
+    crisisType: system && system.crisisType,
+    assistanceType: system && system.assistanceType,
+    emergencyAgencies: system && system.emergencyAgencies
+  };
+};
+
+PageSetting.propTypes = {
+  addCrisisType: PropTypes.func.isRequired,
+  addAssistanceType: PropTypes.func.isRequired,
+  fetchTypes: PropTypes.func.isRequired,
+  crisisType: PropTypes.object.isRequired,
+  assistanceType: PropTypes.object.isRequired,
+  getEmergencyAgencies: PropTypes.func.isRequired,
+  emergencyAgencies: PropTypes.array.isRequired
+};
+
+const mapDispatchToProps = dispatch => ({
+  addCrisisType: form => dispatch(addCrisisType(form)),
+  addAssistanceType: form => dispatch(addAssistanceType(form)),
+  fetchTypes: () => dispatch(fetchTypes()),
+  getEmergencyAgencies: () => dispatch(getEmergencyAgencies())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PageSetting);

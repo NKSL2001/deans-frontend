@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import { Button } from "antd";
 import GMap from "@components/common/GMap";
 import CrisisListTable from "./CrisisListTable";
-import { showModal, initSystem, getCrises } from "@redux/actions";
+import { showModal, fetchTypes, getCrises } from "@redux/actions";
 import * as styles from "./style.scss";
 
 class PageDashboard extends React.Component {
   componentDidMount() {
-    this.props.initSystem();
+    this.props.fetchTypes();
     this.fetchData();
   }
 
@@ -45,7 +45,7 @@ class PageDashboard extends React.Component {
 
 PageDashboard.propTypes = {
   crises: PropTypes.array.isRequired,
-  initSystem: PropTypes.func.isRequired,
+  fetchTypes: PropTypes.func.isRequired,
   getCrises: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired
 };
@@ -60,7 +60,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  initSystem: () => dispatch(initSystem()),
+  fetchTypes: () => dispatch(fetchTypes()),
   getCrises: () => dispatch(getCrises()),
   showModal: (modalType, modalProps) =>
     dispatch(showModal(modalType, modalProps))

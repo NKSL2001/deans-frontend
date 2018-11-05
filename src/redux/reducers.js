@@ -8,7 +8,8 @@ const initialState = {
   },
   system: {
     crisisType: null,
-    assistanceType: null
+    assistanceType: null,
+    emergencyAgencies: null
   },
   common: {
     flag: false,
@@ -39,6 +40,11 @@ const system = (state = initialState.system, action) => {
       return {
         ...state,
         assistanceType: transform(payload)
+      };
+    case actionTypes.FETCH_EMERGENCY_AGENCIES_SUCCESS:
+      return {
+        ...state,
+        emergencyAgencies: payload
       };
     default:
       return state;

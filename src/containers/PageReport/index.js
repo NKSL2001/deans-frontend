@@ -4,13 +4,13 @@ import NavBar from "@components/NavBar";
 import Footer from "@components/Footer";
 import CrisisReportForm from "./CrisisReportForm";
 import { connect } from "react-redux";
-import { getCrises, initSystem, reportCrises } from "@redux/actions";
+import { getCrises, fetchTypes, reportCrises } from "@redux/actions";
 
 import * as styles from "./style.scss";
 
 class PageReport extends React.Component {
   componentDidMount() {
-    this.props.initSystem();
+    this.props.fetchTypes();
     this.fetchData();
   }
 
@@ -47,8 +47,10 @@ PageReport.propTypes = {
   crisisType: PropTypes.array.isRequired,
   assistanceType: PropTypes.array.isRequired,
   crises: PropTypes.array.isRequired,
-  initSystem: PropTypes.func.isRequired,
-  getCrises: PropTypes.func.isRequired
+  fetchTypes: PropTypes.func.isRequired,
+  getCrises: PropTypes.func.isRequired,
+  reportCrises: PropTypes.func.isRequired,
+  flag: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => {
@@ -62,7 +64,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  initSystem: () => dispatch(initSystem()),
+  fetchTypes: () => dispatch(fetchTypes()),
   getCrises: () => dispatch(getCrises()),
   reportCrises: form => dispatch(reportCrises(form))
 });
