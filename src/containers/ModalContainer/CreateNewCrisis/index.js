@@ -12,18 +12,17 @@ const CreateNewCrisis = props => {
       onCancel={props.hideModal}
       footer={null}
     >
-      <CrisisReportForm
-        crisisType={{}}
-        assistanceType={{}}
-        flag={false}
-        reportCrises={null}
-      />
+      <CrisisReportForm {...props} />
     </Modal>
   );
 };
 
 CreateNewCrisis.propTypes = {
-  hideModal: PropTypes.func.isRequired
+  hideModal: PropTypes.func.isRequired,
+  crisisType: PropTypes.array.isRequired,
+  assistanceType: PropTypes.array.isRequired,
+  reportCrises: PropTypes.func.isRequired,
+  getCrises: PropTypes.func.isRequired
 };
 
 export default CreateNewCrisis;

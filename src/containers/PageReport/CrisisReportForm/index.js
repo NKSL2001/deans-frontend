@@ -94,20 +94,10 @@ class CrisisReportForm extends React.Component {
 
     const formItemLayout = {
       labelCol: {
-        sm: { span: 4 }
+        sm: { span: 5 }
       },
       wrapperCol: {
-        sm: { span: 16 }
-      }
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          offset: 0
-        },
-        sm: {
-          offset: 4
-        }
+        sm: { span: 18 }
       }
     };
     const prefixSelector = getFieldDecorator("prefix", {
@@ -263,8 +253,12 @@ class CrisisReportForm extends React.Component {
             />
           )}
         </FormItem>
-        <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
+        <FormItem style={{ width: "100%", textAlign: "right" }}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ width: "30%", marginTop: "2rem", marginRight: "2rem" }}
+          >
             Submit
           </Button>
         </FormItem>

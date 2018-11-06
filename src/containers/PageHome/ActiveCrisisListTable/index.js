@@ -1,43 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 // import * as styles from "./style.scss";
 
-// const dataSource = [
-//   {
-//     key: "1",
-//     crisisType: "Fire",
-//     location: "Jurong West",
-//     description: "Fire in the hole!"
-//   },
-//   {
-//     key: "2",
-//     crisisType: "Injury",
-//     location: "Marina Bay Sand",
-//     description: ""
-//   },
-//   {
-//     key: "3",
-//     crisisType: "Injury",
-//     location: "One North",
-//     description: ""
-//   }
-// ];
-
 const createDataSource = (crisisList, crisisType) =>
-  crisisList.map(crisis => {
+  crisisList.filter(crisis => crisis.crisis_status !== "RS").map(crisis => {
     const key = crisis.crisis_id;
     const type = crisis.crisis_type
       .map(val => crisisType && crisisType[val])
-      .join(", ");
+      // eslint-disable-next-line react/jsx-key
+      .map(type => <Tag color="purple">{type}</Tag>);
     const location = crisis.crisis_location1.replace(/"/g, "");
+    const time = (() => {
+      const date = new Date(crisis.crisis_time);
+      return date.toLocaleString("en", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric"
+      });
+    })();
     const description = crisis.crisis_description;
     return {
       key: key,
       crisisType: type,
       location: location,
-      description: description
+      description: description,
+      reportTime: time
     };
   });
 
@@ -47,17 +38,26 @@ const ActiveCrisisListTable = props => {
     {
       title: "Crisis Type",
       dataIndex: "crisisType",
-      key: "crisisType"
+      key: "crisisType",
+      width: 100
     },
     {
       title: "Location",
       dataIndex: "location",
-      key: "location"
+      key: "location",
+      width: 300
     },
     {
       title: "Description",
       key: "description",
-      dataIndex: "description"
+      dataIndex: "description",
+      width: 200
+    },
+    {
+      title: "Report Time",
+      key: "reportTime",
+      dataIndex: "reportTime",
+      width: 150
     }
   ];
   return (

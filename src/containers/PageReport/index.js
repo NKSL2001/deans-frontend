@@ -25,7 +25,7 @@ class PageReport extends React.Component {
         <div className={styles.container}>
           <div className={styles.header}>Report Crisis</div>
           <div style={{ marginTop: "2rem" }}>
-            If you prefer to report over phone, please call us directly at{" "}
+            If you prefer to report over the phone, please call us directly at{" "}
             <strong>12345678</strong>.
           </div>
           <div className={styles.form}>

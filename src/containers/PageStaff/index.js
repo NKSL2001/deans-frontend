@@ -4,6 +4,7 @@ import * as ROUTES from "src/routes";
 import NavBar from "@components/NavBar";
 import Footer from "@components/Footer";
 import Menu from "./Menu";
+import RealTimeStatus from "./RealTimeStatus";
 import PageDashboard from "./PageDashboard";
 import PageUserCenter from "./PageUserCenter";
 import PageSetting from "./PageSetting";
@@ -17,6 +18,9 @@ function PageStaff() {
       <div className={styles.container}>
         <div className={styles.left}>
           <Menu />
+          <div className={styles.status}>
+            <RealTimeStatus />
+          </div>
         </div>
         <div className={styles.right}>
           <Switch>

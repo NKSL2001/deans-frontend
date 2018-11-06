@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { showModal, resolveCrisis, getCrises } from "@redux/actions";
-import { Modal, Button, Table, message } from "antd";
+import { Modal, Button, Table, message, Tag } from "antd";
 import * as styles from "./style.scss";
 
 const statusMap = {
@@ -11,17 +11,22 @@ const statusMap = {
   RS: "Resolved"
 };
 
+const statusOrder = {
+  PD: 0,
+  DP: 1,
+  RS: 2
+};
+
 // eslint-disable-next-line max-params
 const resolve = (id, flag, resolveCrisis, getCrises, undo) => {
-  console.log(undo);
   Modal.confirm({
-    title: undo ? "Reactivate crisis" : "Resolve crisis?",
+    title: undo ? "Activate crisis?" : "Resolve crisis?",
     content: `The crisis will be marked as ${undo ? "pending" : "resolved"}.`,
     onOk() {
       resolveCrisis(id, undo)
         .then(() => {
           message.success(
-            `Crisis has been ${undo ? "reactivated" : "resolved"}.`,
+            `Crisis has been ${undo ? "activated" : "resolved"}.`,
             2
           );
           getCrises();
@@ -38,22 +43,26 @@ const COLUMNS = [
   {
     title: "Crisis Type",
     dataIndex: "crisisType",
-    key: "crisisType"
+    key: "crisisType",
+    width: 100
   },
   {
     title: "Location",
     dataIndex: "location",
-    key: "location"
+    key: "location",
+    width: 300
   },
   {
     title: "Action",
     dataIndex: "action",
-    key: "action"
+    key: "action",
+    width: 150
   },
   {
     title: "Status",
     key: "status",
-    dataIndex: "status"
+    dataIndex: "status",
+    width: 100
   }
 ];
 
@@ -67,46 +76,68 @@ const createDataSource = (
   getCrises
   // eslint-disable-next-line
 ) =>
-  crisisList.map(crisis => {
-    const id = crisis.crisis_id;
-    const type = crisis.crisis_type
-      .map(val => crisisType && crisisType[val])
-      .join(", ");
-    const location = crisis.crisis_location1.replace(/"/g, "");
-    const status = crisis.crisis_status;
-    return {
-      key: id,
-      crisisType: type,
-      location: location,
-      status: statusMap[status],
-      action: (
-        <div className={styles.actions}>
-          <Button
-            disabled={status === "RS"}
-            type="dashed"
-            onClick={() => editCrisis(crisis)}
+  crisisList
+    .sort((a, b) => statusOrder[a.crisis_status] - statusOrder[b.crisis_status])
+    .map(crisis => {
+      const id = crisis.crisis_id;
+      const type = crisis.crisis_type
+        .map(val => crisisType && crisisType[val])
+        .map(type => (
+          // eslint-disable-next-line react/jsx-key
+          <Tag color="purple">{type}</Tag>
+        ));
+      const location = crisis.crisis_location1.replace(/"/g, "");
+      const status = crisis.crisis_status;
+      return {
+        key: id,
+        crisisType: type,
+        location: location,
+        status: (
+          <span
+            style={{
+              color: (() => {
+                switch (status) {
+                  case "RS":
+                    return "#ccc";
+                  case "PD":
+                    return "crimson";
+                  default:
+                    return "black";
+                }
+              })()
+            }}
           >
-            Edit
-          </Button>
-          <Button
-            disabled={status === "RS"}
-            onClick={() => dispatchCrisis(crisis)}
-          >
-            Dispatch
-          </Button>
-          <Button
-            onClick={() =>
-              resolve(id, flag, resolveCrisis, getCrises, status === "RS")
-            }
-            type="danger"
-          >
-            {status === "RS" ? "Reactivate" : "Resolve"}
-          </Button>
-        </div>
-      ),
-      detail: crisis
-    };
-  });
+            {statusMap[status]}
+          </span>
+        ),
+        action: (
+          <div className={styles.actions}>
+            <Button
+              disabled={status === "RS"}
+              type="dashed"
+              onClick={() => editCrisis(crisis)}
+            >
+              Edit
+            </Button>
+            <Button
+              disabled={status === "RS"}
+              onClick={() => dispatchCrisis(crisis)}
+            >
+              Dispatch
+            </Button>
+            <Button
+              onClick={() =>
+                resolve(id, flag, resolveCrisis, getCrises, status === "RS")
+              }
+              type="danger"
+            >
+              {status === "RS" ? "Activate" : "Resolve"}
+            </Button>
+          </div>
+        ),
+        detail: crisis
+      };
+    });
 
 const CrisisListTable = props => {
   const { crises, crisisType, resolveCrisis, flag, getCrises } = props;

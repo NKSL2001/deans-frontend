@@ -23,11 +23,11 @@ class PageHome extends React.Component {
     return (
       <React.Fragment>
         <NavBar />
+        <div className={styles.map}>
+          <GMap crises={this.props.crises || []} />
+        </div>
         <div className={styles.container}>
-          <div className={styles.header}>Home</div>
-          <div className={styles.map}>
-            <GMap crises={this.props.crises || []} />
-          </div>
+          {/* <div className={styles.header}>Home</div> */}
           <div className={styles.activeCrisisListTableContainer}>
             <div className={styles.subHeader}>Active Crisis</div>
             <div className={styles.activeCrisisListTable}>

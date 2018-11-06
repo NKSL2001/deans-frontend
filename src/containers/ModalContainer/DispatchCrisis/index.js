@@ -32,13 +32,26 @@ const DispatchCrisis = props => {
         </div>
         <div className={styles.summaryContainer}>
           <div className={styles.label}>Reported Time:</div>
-          <div className={styles.value}>{crisis_time}</div>
+          <div className={styles.value}>
+            {(() => {
+              const date = new Date(crisis_time);
+              return date.toLocaleString("en", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric"
+              });
+            })()}
+          </div>
           <div className={styles.label}>Reporter Name:</div>
           <div className={styles.value}>{your_name}</div>
           <div className={styles.label}>Mobile Number:</div>
           <div className={styles.value}>+65 {mobile_number}</div>
           <div className={styles.label}>Location:</div>
-          <div className={styles.value}>{crisis_location1}</div>
+          <div className={styles.value}>
+            {crisis_location1.replace(/"/g, "")}
+          </div>
           <div className={styles.label}>Location 2:</div>
           <div className={styles.value}>{crisis_location2}</div>
           <div className={styles.label}>Crisis Type:</div>

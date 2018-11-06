@@ -1,42 +1,83 @@
 import React from "react";
-import { Form, Input, Select, Button } from "antd";
+import PropTypes from "prop-types";
+import { Form, Input, Tooltip, Icon, Select, Button, message } from "antd";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng
+} from "react-places-autocomplete";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const crisisType = [
-  "Emergency Ambulance",
-  "Rescue and Evacuation",
-  "Fire Fighting",
-  "Gas Leak Control",
-  "Others (please specify in description)"
-];
-
-const assistanceType = [
-  "Emergency Ambulance",
-  "Rescue and Evacuation",
-  "Fire Fighting",
-  "Gas Leak Control",
-  "Others (please specify in description)"
-];
-
-const createSelectionList = arr =>
-  arr.map((value, index) => (
-    <Option value={value} key={index}>
-      {value}
+const createSelectionList = obj =>
+  Object.keys(obj).map((val, index) => (
+    <Option value={val} key={index}>
+      {obj[val]}
     </Option>
   ));
 
 class CrisisReportForm extends React.Component {
   state = {
-    confirmDirty: false
+    confirmDirty: false,
+    address: "",
+    gps: null
+  };
+
+  handleChange = () => null; // dummy
+
+  handleSelect = address => {
+    geocodeByAddress(address)
+      .then(results => {
+        return getLatLng(results[0]);
+      })
+      .then(gps => {
+        this.setState({ gps, address });
+        this.props.form.setFieldsValue({
+          location: address
+        });
+      })
+      .catch(error => console.error("Error", error));
   };
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
+        const {
+          name,
+          phone,
+          location_2,
+          crisisType,
+          crisisDescription,
+          assistanceType,
+          assistanceDescription
+        } = values;
+        const form = new FormData();
+        form.append("your_name", name);
+        form.append("mobile_number", phone);
+        if (crisisType && crisisType.length > 0) {
+          for (const type of crisisType) {
+            form.append("crisis_type", type);
+          }
+        }
+        if (assistanceType && assistanceType.length > 0) {
+          for (const type of assistanceType) {
+            form.append("crisis_assistance", type);
+          }
+        }
+        form.append("crisis_status", "PD");
+        form.append("crisis_location1", JSON.stringify(this.state.address)); // important because object makes no sense in REST
+        form.append("crisis_location2", location_2);
+        form.append("crisis_description", crisisDescription);
+        form.append("crisis_assistance_description", assistanceDescription);
+        this.props
+          .reportCrises(form)
+          .then(() => {
+            message.success("Success!");
+            this.props.getCrises();
+            this.props.hideModal();
+          })
+          .catch(error => console.log(error));
       }
     });
   };
@@ -44,35 +85,6 @@ class CrisisReportForm extends React.Component {
   handleConfirmBlur = e => {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue("password")) {
-      callback("Two passwords that you enter is inconsistent!");
-    } else {
-      callback();
-    }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(["confirm"], { force: true });
-    }
-    callback();
-  };
-
-  handleWebsiteChange = value => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = [".com", ".org", ".net"].map(
-        domain => `${value}${domain}`
-      );
-    }
-    this.setState({ autoCompleteResult });
   };
 
   render() {
@@ -89,28 +101,38 @@ class CrisisReportForm extends React.Component {
     const prefixSelector = getFieldDecorator("prefix", {
       initialValue: "65"
     })(
-      <Select style={{ width: 70 }}>
+      <Select disabled style={{ width: 70 }}>
         <Option value="65">+65</Option>
       </Select>
     );
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormItem {...formItemLayout} label={<span>Reporter Name</span>}>
+        <FormItem
+          {...formItemLayout}
+          label={
+            <span>
+              Your Name&nbsp;
+              <Tooltip title="Your real name">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          }
+        >
           {getFieldDecorator("name", {
             rules: [
               {
                 required: true,
-                message: "Please input reporter name!",
+                message: "Please input your name!",
                 whitespace: true
               }
             ]
-          })(<Input placeholder="Enter reporter name" />)}
+          })(<Input placeholder="Enter your name" />)}
         </FormItem>
         <FormItem {...formItemLayout} label="Mobile Number">
           {getFieldDecorator("phone", {
             rules: [
-              { required: true, message: "Please input the mobile number!" }
+              { required: true, message: "Please input your mobile number!" }
             ]
           })(<Input addonBefore={prefixSelector} style={{ width: "100%" }} />)}
         </FormItem>
@@ -123,7 +145,52 @@ class CrisisReportForm extends React.Component {
                 whitespace: true
               }
             ]
-          })(<Input placeholder="Enter postal code to quickly navigate" />)}
+          })(
+            <PlacesAutocomplete
+              onChange={this.handleChange}
+              onSelect={this.handleSelect}
+            >
+              {({
+                getInputProps,
+                suggestions,
+                getSuggestionItemProps,
+                loading
+              }) => {
+                return (
+                  <React.Fragment>
+                    <Input
+                      {...getInputProps({
+                        placeholder: "Search places..."
+                      })}
+                    />
+                    <div className="autocomplete-dropdown-container">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map((suggestion, index) => {
+                        const className = suggestion.active
+                          ? "suggestion-item--active"
+                          : "suggestion-item";
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                          : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return (
+                          <div
+                            key={index}
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </React.Fragment>
+                );
+              }}
+            </PlacesAutocomplete>
+          )}
         </FormItem>
         <FormItem {...formItemLayout} label={<span>Location 2</span>}>
           {getFieldDecorator("location_2", {
@@ -145,8 +212,8 @@ class CrisisReportForm extends React.Component {
               }
             ]
           })(
-            <Select mode="multiple" placeholder="Please select favorite colors">
-              {createSelectionList(crisisType)}
+            <Select mode="multiple" placeholder="Select crisis type(s)">
+              {createSelectionList(this.props.crisisType)}
             </Select>
           )}
         </FormItem>
@@ -170,7 +237,7 @@ class CrisisReportForm extends React.Component {
             ]
           })(
             <Select mode="multiple" placeholder="Select assistance(s) required">
-              {createSelectionList(assistanceType)}
+              {createSelectionList(this.props.assistanceType)}
             </Select>
           )}
         </FormItem>
@@ -184,7 +251,7 @@ class CrisisReportForm extends React.Component {
             />
           )}
         </FormItem>
-        <FormItem style={{ marginBottom: 0 }}>
+        <FormItem style={{ width: "100%" }}>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Submit
           </Button>
@@ -193,5 +260,13 @@ class CrisisReportForm extends React.Component {
     );
   }
 }
+
+CrisisReportForm.propTypes = {
+  crisisType: PropTypes.array.isRequired,
+  assistanceType: PropTypes.array.isRequired,
+  reportCrises: PropTypes.func.isRequired,
+  getCrises: PropTypes.func.isRequired,
+  hideModal: PropTypes.func.isRequired
+};
 
 export default Form.create()(CrisisReportForm);

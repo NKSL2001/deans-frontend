@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Button } from "antd";
 import GMap from "@components/GMap";
 import CrisisListTable from "./CrisisListTable";
-import { showModal, fetchTypes, getCrises } from "@redux/actions";
+import { showModal, fetchTypes, getCrises, reportCrises } from "@redux/actions";
 import * as styles from "./style.scss";
 
 class PageDashboard extends React.Component {
@@ -29,7 +29,14 @@ class PageDashboard extends React.Component {
           <div className={styles.item}>
             <Button
               type="primary"
-              onClick={() => this.props.showModal("CREATE_NEW_CRISIS")}
+              onClick={() =>
+                this.props.showModal("CREATE_NEW_CRISIS", {
+                  crisisType: this.props.crisisType,
+                  assistanceType: this.props.assistanceType,
+                  reportCrises: this.props.reportCrises,
+                  getCrises: this.props.getCrises
+                })
+              }
             >
               Create new crisis
             </Button>
@@ -47,6 +54,9 @@ PageDashboard.propTypes = {
   crises: PropTypes.array.isRequired,
   fetchTypes: PropTypes.func.isRequired,
   getCrises: PropTypes.func.isRequired,
+  reportCrises: PropTypes.func.isRequired,
+  crisisType: PropTypes.object.isRequired,
+  assistanceType: PropTypes.object.isRequired,
   showModal: PropTypes.func.isRequired
 };
 
@@ -62,6 +72,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   fetchTypes: () => dispatch(fetchTypes()),
   getCrises: () => dispatch(getCrises()),
+  reportCrises: form => dispatch(reportCrises(form)),
   showModal: (modalType, modalProps) =>
     dispatch(showModal(modalType, modalProps))
 });
