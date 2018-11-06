@@ -51,6 +51,7 @@ const system = (state = initialState.system, action) => {
   }
 };
 
+// eslint-disable-next-line
 const staff = (state = initialState.staff, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -146,6 +147,21 @@ const staff = (state = initialState.staff, action) => {
         flag: true
       };
     case actionTypes.ADD_ASSISTANCE_TYPE_FAILURE:
+      return {
+        ...state,
+        flag: false
+      };
+    case actionTypes.ADD_EMERGENCY_AGENCIES_REQUESTED:
+      return {
+        ...state,
+        flag: false
+      };
+    case actionTypes.ADD_EMERGENCY_AGENCIES_SUCCESS:
+      return {
+        ...state,
+        flag: true
+      };
+    case actionTypes.ADD_EMERGENCY_AGENCIES_FAILURE:
       return {
         ...state,
         flag: false

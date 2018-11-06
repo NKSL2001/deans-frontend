@@ -52,7 +52,6 @@ class CrisisReportForm extends React.Component {
           assistanceType,
           assistanceDescription
         } = values;
-        console.log("submit clicked");
         const form = new FormData();
         form.append("your_name", name);
         form.append("mobile_number", phone);

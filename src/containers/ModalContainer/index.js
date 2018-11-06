@@ -6,6 +6,8 @@ import EditCrisis from "./EditCrisis";
 import DispatchCrisis from "./DispatchCrisis";
 import AddUser from "./AddUser";
 import EditUser from "./EditUser";
+import SingleInput from "./SingleInput";
+import DoubleInput from "./DoubleInput";
 
 const ModalContainer = props => {
   switch (props.modalType) {
@@ -23,6 +25,10 @@ const ModalContainer = props => {
       return <AddUser {...props.modalProps} hideModal={props.hideModal} />;
     case "EDIT_USER":
       return <EditUser {...props.modalProps} hideModal={props.hideModal} />;
+    case "SINGLE_INPUT":
+      return <SingleInput {...props.modalProps} hideModal={props.hideModal} />;
+    case "DOUBLE_INPUT":
+      return <DoubleInput {...props.modalProps} hideModal={props.hideModal} />;
     default:
       return null;
   }

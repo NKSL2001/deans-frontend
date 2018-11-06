@@ -23,7 +23,7 @@ const EmergencyAgenciesTable = props => {
   ];
 
   const createDataSource = () => {
-    const { emergencyAgencies } = props;
+    const { emergencyAgencies, editPhoneNumber } = props;
     return emergencyAgencies.map(agency => {
       const name = agency.agency;
       const phoneNumber = agency.phone_number;
@@ -32,7 +32,17 @@ const EmergencyAgenciesTable = props => {
         phoneNumber: phoneNumber,
         actions: (
           <div className={styles.actions}>
-            <Button type="dashed">Edit</Button>
+            <Button
+              type="dashed"
+              onClick={() =>
+                props.showModal("SINGLE_INPUT", {
+                  title: "EDIT PHONE NUMBER",
+                  handler: phoneNumber => editPhoneNumber(name, phoneNumber)
+                })
+              }
+            >
+              Edit
+            </Button>
             <Button type="danger">Delete</Button>
           </div>
         )
@@ -50,7 +60,9 @@ const EmergencyAgenciesTable = props => {
 };
 
 EmergencyAgenciesTable.propTypes = {
-  emergencyAgencies: PropTypes.array.isRequired
+  emergencyAgencies: PropTypes.array.isRequired,
+  showModal: PropTypes.func.isRequired,
+  editPhoneNumber: PropTypes.func.isRequired
 };
 
 export default EmergencyAgenciesTable;

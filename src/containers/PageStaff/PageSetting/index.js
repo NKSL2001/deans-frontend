@@ -6,7 +6,9 @@ import {
   addCrisisType,
   addAssistanceType,
   fetchTypes,
-  getEmergencyAgencies
+  getEmergencyAgencies,
+  addEmergencyAgencies,
+  showModal
 } from "@redux/actions";
 import { Button, Input, Tag, message } from "antd";
 import EmergencyAgenciesTable from "./EmergencyAgenciesTable";
@@ -59,13 +61,42 @@ class PageSetting extends React.Component {
     });
   };
 
-  addCrisisType = () => {
-    const name = prompt("Enter the name of new crisis");
+  addCrisisType = name => {
+    // const name = prompt("Enter the name of new crisis");
     const form = new FormData();
     form.append("name", name);
     this.props
       .addCrisisType(form)
-      .then(() => message.success("Success!"))
+      .then(() => {
+        message.success("Success!");
+        this.props.fetchTypes();
+      })
+      .catch(() => message.error("Error!"));
+  };
+
+  addAssistanceType = name => {
+    // const name = prompt("Enter the name of new crisis");
+    const form = new FormData();
+    form.append("name", name);
+    this.props
+      .addAssistanceType(form)
+      .then(() => {
+        message.success("Success!");
+        this.props.fetchTypes();
+      })
+      .catch(() => message.error("Error!"));
+  };
+
+  addEmergencyAgencies = (agency, phoneNumber) => {
+    const form = new FormData();
+    form.append("agency", agency);
+    form.append("phone_number", phoneNumber);
+    this.props
+      .addEmergencyAgencies(form)
+      .then(() => {
+        message.success("Success!");
+        this.props.getEmergencyAgencies();
+      })
       .catch(() => message.error("Error!"));
   };
 
@@ -75,12 +106,30 @@ class PageSetting extends React.Component {
         <h1>Setting</h1>
         <div className={styles.subHeader}>
           <div>Crisis Type</div>
-          <Button>Add</Button>
+          <Button
+            onClick={() =>
+              this.props.showModal("SINGLE_INPUT", {
+                title: "ADD CRISIS TYPE",
+                handler: this.addCrisisType
+              })
+            }
+          >
+            Add
+          </Button>
         </div>
         <div className={styles.tagContainer}>{this.createCrisisTags()}</div>
         <div className={styles.subHeader}>
           <div>Assistance Type</div>
-          <Button>Add</Button>
+          <Button
+            onClick={() =>
+              this.props.showModal("SINGLE_INPUT", {
+                title: "ADD ASSISTANCE TYPE",
+                handler: this.addAssistanceType
+              })
+            }
+          >
+            Add
+          </Button>
         </div>
         <div className={styles.tagContainer}>{this.createAssistanceTags()}</div>
         {/* <div className={styles.subHeader}>
@@ -120,11 +169,24 @@ class PageSetting extends React.Component {
         </div> */}
         <div className={styles.subHeader}>
           <div>Emergency Agencies</div>
-          <Button onClick={this.addCrisisType}>Add</Button>
+          <Button
+            onClick={() =>
+              this.props.showModal("DOUBLE_INPUT", {
+                title: "ADD EMERGENCY AGENCIES",
+                handler: this.addEmergencyAgencies,
+                labelA: "Agency Name",
+                labelB: "Phone Number"
+              })
+            }
+          >
+            Add
+          </Button>
         </div>
         <div className={styles.emergencyAgenciesContainer}>
           <EmergencyAgenciesTable
+            showModal={this.props.showModal}
             emergencyAgencies={this.props.emergencyAgencies || []}
+            editPhoneNumber={this.addEmergencyAgencies}
           />
         </div>
         <div className={styles.subHeader}>
@@ -160,14 +222,19 @@ PageSetting.propTypes = {
   crisisType: PropTypes.object.isRequired,
   assistanceType: PropTypes.object.isRequired,
   getEmergencyAgencies: PropTypes.func.isRequired,
-  emergencyAgencies: PropTypes.array.isRequired
+  addEmergencyAgencies: PropTypes.func.isRequired,
+  emergencyAgencies: PropTypes.array.isRequired,
+  showModal: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
   addCrisisType: form => dispatch(addCrisisType(form)),
   addAssistanceType: form => dispatch(addAssistanceType(form)),
   fetchTypes: () => dispatch(fetchTypes()),
-  getEmergencyAgencies: () => dispatch(getEmergencyAgencies())
+  getEmergencyAgencies: () => dispatch(getEmergencyAgencies()),
+  addEmergencyAgencies: form => dispatch(addEmergencyAgencies(form)),
+  showModal: (modalType, modalProps) =>
+    dispatch(showModal(modalType, modalProps))
 });
 
 export default connect(

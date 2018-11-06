@@ -109,13 +109,13 @@ export const userLogin = form => {
   };
 };
 
-export const resolveCrisis = id => {
+export const resolveCrisis = (id, undo) => {
   return async dispatch => {
     dispatch({
       type: actionTypes.RESOLVE_CRISIS_REQUESTED
     });
     await api
-      .resolveCrisis(id)
+      .resolveCrisis(id, undo)
       .then(() => {
         dispatch({
           type: actionTypes.RESOLVE_CRISIS_SUCCESS
@@ -204,7 +204,23 @@ export const getEmergencyAgencies = () => {
         })
       );
   };
-}
+};
+
+export const addEmergencyAgencies = form => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.ADD_EMERGENCY_AGENCIES_REQUESTED
+    });
+    await api
+      .addEmergencyAgencies(form)
+      .then(() => {
+        dispatch({ type: actionTypes.ADD_EMERGENCY_AGENCIES_SUCCESS });
+      })
+      .catch(() =>
+        dispatch({ type: actionTypes.ADD_EMERGENCY_AGENCIES_FAILURE })
+      );
+  };
+};
 
 export const showModal = (modalType, modalProps) => {
   return {

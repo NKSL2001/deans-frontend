@@ -62,11 +62,12 @@ export const dispatchCrisis = id => {
   );
 };
 
-export const resolveCrisis = id => {
+export const resolveCrisis = (id, undo) => {
+  console.log("in action", id, undo);
   return axios.put(
     "/crises/update-partial/" + id + "/",
     {
-      crisis_status: "RS"
+      crisis_status: undo ? "PD" : "RS"
     },
     {
       headers: {
@@ -110,4 +111,12 @@ export const addAssistanceType = form => {
 
 export const getEmergencyAgencies = () => {
   return axios.get("/emergencyagencies/");
-}
+};
+
+export const addEmergencyAgencies = form => {
+  return axios.post("/emergencyagencies/", form, {
+    headers: {
+      Authorization: `Token ${_getAuthToken()}`
+    }
+  });
+};
