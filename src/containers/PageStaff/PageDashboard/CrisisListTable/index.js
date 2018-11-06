@@ -5,6 +5,12 @@ import { showModal, resolveCrisis, getCrises } from "@redux/actions";
 import { Modal, Button, Table, message } from "antd";
 import * as styles from "./style.scss";
 
+const statusMap = {
+  PD: "Pending",
+  DP: "Dispatched",
+  RS: "Resolved"
+};
+
 // eslint-disable-next-line max-params
 const resolve = (id, flag, resolveCrisis, getCrises, undo) => {
   console.log(undo);
@@ -12,7 +18,6 @@ const resolve = (id, flag, resolveCrisis, getCrises, undo) => {
     title: undo ? "Reactivate crisis" : "Resolve crisis?",
     content: `The crisis will be marked as ${undo ? "pending" : "resolved"}.`,
     onOk() {
-      console.log("On OK", undo);
       resolveCrisis(id, undo)
         .then(() => {
           message.success(
@@ -67,13 +72,13 @@ const createDataSource = (
     const type = crisis.crisis_type
       .map(val => crisisType && crisisType[val])
       .join(", ");
-    const location = "TODO";
+    const location = crisis.crisis_location1.replace(/"/g, "");
     const status = crisis.crisis_status;
     return {
       key: id,
       crisisType: type,
       location: location,
-      status: status,
+      status: statusMap[status],
       action: (
         <div className={styles.actions}>
           <Button

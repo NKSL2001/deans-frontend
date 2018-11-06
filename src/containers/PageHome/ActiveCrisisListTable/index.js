@@ -31,7 +31,7 @@ const createDataSource = (crisisList, crisisType) =>
     const type = crisis.crisis_type
       .map(val => crisisType && crisisType[val])
       .join(", ");
-    const location = "TODO";
+    const location = crisis.crisis_location1.replace(/"/g, "");
     const description = crisis.crisis_description;
     return {
       key: key,

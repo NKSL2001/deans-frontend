@@ -66,7 +66,7 @@ class CrisisReportForm extends React.Component {
           }
         }
         form.append("crisis_status", "PD");
-        form.append("crisis_location1", JSON.stringify(this.state.gps)); // important because object makes no sense in REST
+        form.append("crisis_location1", JSON.stringify(this.state.address)); // important because object makes no sense in REST
         form.append("crisis_location2", location_2);
         form.append("crisis_description", crisisDescription);
         form.append("crisis_assistance_description", assistanceDescription);

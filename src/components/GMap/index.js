@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Marker from "@components/Marker";
 import PropTypes from "prop-types";
 import GoogleMapReact from "google-map-react";
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
 // TODO: get it from redux
 // const crisisList = [
@@ -25,27 +26,68 @@ import GoogleMapReact from "google-map-react";
 //   }
 // ];
 
-const createMarker = crisisList =>
-  crisisList.map(crisis => {
-    const key = crisis.crisis_id;
-    const location =
-      crisis.crisis_location1 && JSON.parse(crisis.crisis_location1);
-    const type = crisis.crisis_type;
-    const description = crisis.crisis_description;
-    console.log("crisis", crisis);
-    console.log("location", location);
-    return (
-      <Marker
-        key={key}
-        lat={location && location["lat"]}
-        lng={location && location["lng"]}
-        type={type}
-        description={description}
-      />
-    );
-  });
-
 class GMap extends Component {
+  state = {
+    crises: {}
+  };
+
+  componentDidMount = () => {
+    this.loadCrisesIntoState();
+  };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.crises !== this.props.crises) {
+      console.log("updated crises", this.props.crises);
+      this.loadCrisesIntoState();
+    }
+  };
+
+  createMarker = () => {
+    const { crises } = this.state;
+    if (Object.keys(crises).length === 0) return null;
+    return Object.keys(crises).map(index => {
+      const crisis = crises[index];
+      const id = crisis.id;
+      const lat = crisis.lat;
+      const lng = crisis.lng;
+      const type = crisis.type;
+      const description = crisis.description;
+      return (
+        <Marker
+          key={id}
+          lat={lat}
+          lng={lng}
+          type={type}
+          description={description}
+        />
+      );
+    });
+  };
+
+  loadCrisesIntoState = () => {
+    // this.setState({ crises: {} }); // clear cached crisis
+    this.props.crises.forEach(crisis => {
+      const id = crisis.crisis_id;
+      const type = crisis.crisis_type;
+      const description = crisis.crisis_description;
+      geocodeByAddress(crisis.crisis_location1)
+        .then(geoCode => getLatLng(geoCode[0]))
+        .then(location => {
+          this.setState({
+            crises: {
+              ...this.state.crises,
+              [id]: {
+                lat: location && location["lat"],
+                lng: location && location["lng"],
+                type: type,
+                description: description
+              }
+            }
+          });
+        });
+    });
+  };
+
   render() {
     return (
       // Important! Always set the container height explicitly
@@ -58,7 +100,7 @@ class GMap extends Component {
           defaultZoom={12}
           draggable={true}
         >
-          {createMarker(this.props.crises)}
+          {this.createMarker()}
         </GoogleMapReact>
       </div>
     );

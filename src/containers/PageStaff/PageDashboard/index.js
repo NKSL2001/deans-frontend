@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Button } from "antd";
-import GMap from "@components/common/GMap";
+import GMap from "@components/GMap";
 import CrisisListTable from "./CrisisListTable";
 import { showModal, fetchTypes, getCrises } from "@redux/actions";
 import * as styles from "./style.scss";
