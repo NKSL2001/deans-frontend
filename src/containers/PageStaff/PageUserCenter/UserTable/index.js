@@ -22,7 +22,7 @@ const COLUMNS = [
 ];
 
 const UserTable = props => {
-  const { editUser, showEditUserModal } = props;
+  const { editUser, showEditUserModal, currentUser } = props;
 
   const toggleAdmin = (id, isAdmin) => {
     const form = new FormData();
@@ -36,6 +36,7 @@ const UserTable = props => {
       username: val.username,
       adminStatus: (
         <Switch
+          disabled={val.username === currentUser}
           defaultChecked={val.is_staff}
           onChange={checked => toggleAdmin(val.id, checked)}
         />
@@ -63,7 +64,8 @@ const UserTable = props => {
 UserTable.propTypes = {
   userList: PropTypes.array.isRequired,
   editUser: PropTypes.func.isRequired,
-  showEditUserModal: PropTypes.func.isRequired
+  showEditUserModal: PropTypes.func.isRequired,
+  currentUser: PropTypes.string.isRequired
 };
 
 export default UserTable;

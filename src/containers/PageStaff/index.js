@@ -1,48 +1,101 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import * as ROUTES from "src/routes";
 import NavBar from "@components/NavBar";
 import Footer from "@components/Footer";
+import RealTimePSI from "@components/RealTimePSI";
 import Menu from "./Menu";
 import RealTimeStatus from "./RealTimeStatus";
 import PageDashboard from "./PageDashboard";
 import PageUserCenter from "./PageUserCenter";
 import PageSetting from "./PageSetting";
+import { fetchTypes, getCrises } from "@redux/actions";
 
 import * as styles from "./style.scss";
 
-function PageStaff() {
-  return (
-    <React.Fragment>
-      <NavBar />
-      <div className={styles.container}>
-        <div className={styles.left}>
-          <Menu />
-          <div className={styles.status}>
-            <RealTimeStatus />
+class PageStaff extends React.Component {
+  componentDidMount() {
+    this.props.fetchTypes();
+    this.props.getCrises();
+  }
+
+  render() {
+    const { crises } = this.props;
+    const numOfPending =
+      crises && crises.filter(crisis => crisis.crisis_status === "PD").length;
+    const numOfDispatched =
+      crises && crises.filter(crisis => crisis.crisis_status === "DP").length;
+    return (
+      <React.Fragment>
+        <NavBar />
+        <div className={styles.container}>
+          <div className={styles.left}>
+            <Menu isAdmin={this.props.isAdmin} />
+            <div className={styles.status}>
+              <RealTimePSI />
+            </div>
+            <div className={styles.status}>
+              <RealTimeStatus
+                numOfPending={numOfPending || 0}
+                numOfDispatched={numOfDispatched || 0}
+              />
+            </div>
+          </div>
+          <div className={styles.right}>
+            <Switch>
+              <Route
+                exact
+                path={ROUTES.ROUTE_DASHBOARD}
+                component={PageDashboard}
+              />
+              <Route
+                exact
+                path={ROUTES.ROUTE_USER_CENTER}
+                component={PageUserCenter}
+              />
+              <Route
+                exact
+                path={ROUTES.ROUTE_SETTING}
+                component={PageSetting}
+              />
+              {/* fallback */}
+              <Route path={ROUTES.ROUTE_STAFF} component={PageDashboard} />
+            </Switch>
           </div>
         </div>
-        <div className={styles.right}>
-          <Switch>
-            <Route
-              exact
-              path={ROUTES.ROUTE_DASHBOARD}
-              component={PageDashboard}
-            />
-            <Route
-              exact
-              path={ROUTES.ROUTE_USER_CENTER}
-              component={PageUserCenter}
-            />
-            <Route exact path={ROUTES.ROUTE_SETTING} component={PageSetting} />
-            {/* fallback */}
-            <Route path={ROUTES.ROUTE_STAFF} component={PageDashboard} />
-          </Switch>
-        </div>
-      </div>
-      <Footer />
-    </React.Fragment>
-  );
+        <Footer />
+      </React.Fragment>
+    );
+  }
 }
 
-export default PageStaff;
+PageStaff.propTypes = {
+  crises: PropTypes.array.isRequired,
+  fetchTypes: PropTypes.func.isRequired,
+  getCrises: PropTypes.func.isRequired,
+  crisisType: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  assistanceType: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => {
+  const { staff, system, common } = state;
+  return {
+    isAdmin: staff && staff.isAdmin,
+    crisisType: system && system.crisisType,
+    assistanceType: system && system.assistanceType,
+    crises: common && common.crises
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  fetchTypes: () => dispatch(fetchTypes()),
+  getCrises: () => dispatch(getCrises())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PageStaff);

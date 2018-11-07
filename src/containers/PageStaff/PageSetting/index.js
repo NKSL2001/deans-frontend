@@ -8,6 +8,7 @@ import {
   fetchTypes,
   getEmergencyAgencies,
   addEmergencyAgencies,
+  editSiteSettings,
   showModal
 } from "@redux/actions";
 import { Button, Input, Tag, message } from "antd";
@@ -59,6 +60,21 @@ class PageSetting extends React.Component {
         content: e.target.value
       }
     });
+  };
+
+  editSiteSettings = () => {
+    const email = this.state.reportingEmail.content;
+    if (!email.match(/.+@.+\..+/g)) {
+      console.log(email);
+      message.error("Email is invalid");
+    } else {
+      const form = new FormData();
+      form.append("summary_reporting_email", email);
+      this.props.editSiteSettings(form).then(() => {
+        message.success("Success!");
+        this.setState({ edited: false });
+      });
+    }
   };
 
   addCrisisType = name => {
@@ -132,41 +148,6 @@ class PageSetting extends React.Component {
           </Button>
         </div>
         <div className={styles.tagContainer}>{this.createAssistanceTags()}</div>
-        {/* <div className={styles.subHeader}>
-          <div>Social Media Account</div>
-        </div> */}
-        {/* <div className={styles.socialMediaAccountContainer}>
-          <div className={styles.item + " " + styles.label}>Social Media</div>
-          <div className={styles.item + " " + styles.label}>Account</div>
-          <div className={styles.item + " " + styles.label}>Password</div>
-          <div className={styles.item + " " + styles.label}>Actions</div>
-          <div className={styles.item}>Facebook</div>
-          <div className={styles.item}>
-            <Input type="text" defaultValue="john.doe@gmail.com" />
-          </div>
-          <div className={styles.item}>
-            <Input type="password" defaultValue="123123" />
-          </div>
-          <div className={styles.item}>
-            <div className={styles.actions}>
-              <Button type="primary">Save</Button>
-              <Button type="danger">Delete</Button>
-            </div>
-          </div>
-          <div className={styles.item}>Twitter</div>
-          <div className={styles.item}>
-            <Input type="text" defaultValue="john.doe@gmail.com" />
-          </div>
-          <div className={styles.item}>
-            <Input type="password" defaultValue="123123" />
-          </div>
-          <div className={styles.item}>
-            <div className={styles.actions}>
-              <Button type="primary" disabled>Save</Button>
-              <Button type="danger">Delete</Button>
-            </div>
-          </div>
-        </div> */}
         <div className={styles.subHeader}>
           <div>Emergency Agencies</div>
           <Button
@@ -191,7 +172,11 @@ class PageSetting extends React.Component {
         </div>
         <div className={styles.subHeader}>
           <div>Summary Reporting Email</div>
-          <Button type="primary" disabled={!this.state.reportingEmail.edited}>
+          <Button
+            type="primary"
+            disabled={!this.state.reportingEmail.edited}
+            onClick={this.editSiteSettings}
+          >
             Save
           </Button>
         </div>
@@ -224,6 +209,7 @@ PageSetting.propTypes = {
   getEmergencyAgencies: PropTypes.func.isRequired,
   addEmergencyAgencies: PropTypes.func.isRequired,
   emergencyAgencies: PropTypes.array.isRequired,
+  editSiteSettings: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired
 };
 
@@ -233,6 +219,7 @@ const mapDispatchToProps = dispatch => ({
   fetchTypes: () => dispatch(fetchTypes()),
   getEmergencyAgencies: () => dispatch(getEmergencyAgencies()),
   addEmergencyAgencies: form => dispatch(addEmergencyAgencies(form)),
+  editSiteSettings: form => dispatch(editSiteSettings(form)),
   showModal: (modalType, modalProps) =>
     dispatch(showModal(modalType, modalProps))
 });

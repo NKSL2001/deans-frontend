@@ -1,6 +1,83 @@
 import * as actionTypes from "./actionTypes";
 import * as api from "@api";
 
+export const startRealTimeCrisisTracking = interval => {
+  return async dispatch => {
+    const job = () => {
+      dispatch({
+        type: actionTypes.FETCH_CRISIS_REQUESTED
+      });
+      api
+        .getCrises()
+        .then(response =>
+          dispatch({
+            type: actionTypes.FETCH_CRISIS_SUCCESS,
+            payload: response.data
+          })
+        )
+        .catch(() =>
+          dispatch({
+            type: actionTypes.FETCH_CRISIS_FAILURE
+          })
+        );
+      api
+        .getPSI()
+        .then(response =>
+          dispatch({
+            type: actionTypes.FETCH_PSI_SUCCESS,
+            payload: response.data
+          })
+        )
+        .catch(() =>
+          dispatch({
+            type: actionTypes.FETCH_PSI_FAILURE
+          })
+        );
+      api
+        .getHumidity()
+        .then(response =>
+          dispatch({
+            type: actionTypes.FETCH_HUMIDITY_SUCCESS,
+            payload: response.data
+          })
+        )
+        .catch(() =>
+          dispatch({
+            type: actionTypes.FETCH_HUMIDITY_FAILURE
+          })
+        );
+      api
+        .getRainfall()
+        .then(response =>
+          dispatch({
+            type: actionTypes.FETCH_RAINFALL_SUCCESS,
+            payload: response.data
+          })
+        )
+        .catch(() =>
+          dispatch({
+            type: actionTypes.FETCH_RAINFALL_FAILURE
+          })
+        );
+      api
+        .getTemperature()
+        .then(response =>
+          dispatch({
+            type: actionTypes.FETCH_TEMPERATURE_SUCCESS,
+            payload: response.data
+          })
+        )
+        .catch(() =>
+          dispatch({
+            type: actionTypes.FETCH_TEMPERATURE_FAILURE
+          })
+        );
+    };
+    job();
+    setInterval(job, interval);
+  };
+};
+
 export const fetchTypes = () => {
   return async dispatch => {
     dispatch({
@@ -106,6 +183,22 @@ export const userLogin = form => {
         });
       })
       .catch(() => dispatch({ type: actionTypes.USER_LOGIN_FAILURE }));
+  };
+};
+
+export const userLogout = form => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.USER_LOGOUT_REQUESTED
+    });
+    await api
+      .userLogout(form)
+      .then(() => {
+        dispatch({
+          type: actionTypes.USER_LOGOUT_SUCCESS
+        });
+      })
+      .catch(() => dispatch({ type: actionTypes.USER_LOGOUT_FAILURE }));
   };
 };
 
@@ -218,6 +311,41 @@ export const addEmergencyAgencies = form => {
       })
       .catch(() =>
         dispatch({ type: actionTypes.ADD_EMERGENCY_AGENCIES_FAILURE })
+      );
+  };
+};
+
+export const editSiteSettings = form => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.EDIT_SITE_SETTINGS_REQUESTED
+    });
+    await api
+      .editSiteSettings(form)
+      .then(() => {
+        dispatch({ type: actionTypes.EDIT_SITE_SETTINGS_SUCCESS });
+      })
+      .catch(() => dispatch({ type: actionTypes.EDIT_SITE_SETTINGS_FAILURE }));
+  };
+};
+
+export const getCurrentUser = () => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.FETCH_CURRENT_USER_REQUESTED
+    });
+    api
+      .getCurrentUser()
+      .then(response =>
+        dispatch({
+          type: actionTypes.FETCH_CURRENT_USER_SUCCESS,
+          payload: response.data
+        })
+      )
+      .catch(() =>
+        dispatch({
+          type: actionTypes.FETCH_CURRENT_USER_FAILURE
+        })
       );
   };
 };

@@ -9,33 +9,51 @@ import { getCrises, fetchTypes, reportCrises } from "@redux/actions";
 import * as styles from "./style.scss";
 
 class PageReport extends React.Component {
+  state = {
+    completed: false
+  };
+
   componentDidMount() {
     this.props.fetchTypes();
     this.fetchData();
   }
+
+  setComplete = () => {
+    this.setState({ completed: true });
+  };
 
   fetchData = () => {
     this.props.getCrises();
   };
 
   render() {
+    const { completed } = this.state;
     return (
       <React.Fragment>
         <NavBar />
         <div className={styles.container}>
           <div className={styles.header}>Report Crisis</div>
-          <div style={{ marginTop: "2rem" }}>
-            If you prefer to report over the phone, please call us directly at{" "}
-            <strong>12345678</strong>.
-          </div>
-          <div className={styles.form}>
-            <CrisisReportForm
-              crisisType={this.props.crisisType || []}
-              assistanceType={this.props.assistanceType || []}
-              reportCrises={this.props.reportCrises}
-              flag={this.props.flag}
-            />
-          </div>
+          {completed ? (
+            <div style={{ marginTop: "2rem" }}>
+              Thank you for reporting the crisis!
+            </div>
+          ) : (
+            <React.Fragment>
+              <div style={{ marginTop: "2rem" }}>
+                If you prefer to report over the phone, please call us directly
+                at <strong>12345678</strong>.
+              </div>
+              <div className={styles.form}>
+                <CrisisReportForm
+                  crisisType={this.props.crisisType || []}
+                  assistanceType={this.props.assistanceType || []}
+                  reportCrises={this.props.reportCrises}
+                  setComplete={this.setComplete}
+                  flag={this.props.flag}
+                />
+              </div>
+            </React.Fragment>
+          )}
         </div>
         <Footer />
       </React.Fragment>

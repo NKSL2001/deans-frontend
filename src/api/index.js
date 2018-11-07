@@ -32,6 +32,12 @@ export const userLogin = form => {
   return axios.post("/rest-auth/login/", form); // it is important to keep the ending slash
 };
 
+export const userLogout = () => {
+  const form = new FormData();
+  form.append("csrfmiddlewaretoken", _getCSRFToken());
+  return axios.post("/rest-auth/logout/", form); // it is important to keep the ending slash
+};
+
 export const getUserList = () => {
   return axios.get("/users/", {
     headers: {
@@ -119,4 +125,40 @@ export const addEmergencyAgencies = form => {
       Authorization: `Token ${_getAuthToken()}`
     }
   });
+};
+
+export const editSiteSettings = form => {
+  return axios.post("/sitesettings/", form, {
+    headers: {
+      Authorization: `Token ${_getAuthToken()}`
+    }
+  });
+};
+
+export const getCurrentUser = () => {
+  return axios.get("/rest-auth/user/", {
+    headers: {
+      Authorization: `Token ${_getAuthToken()}`
+    }
+  });
+};
+
+// from data.gov.sg
+export const getHumidity = () => {
+  return axios.get("https://api.data.gov.sg/v1/environment/relative-humidity");
+};
+
+// from data.gov.sg
+export const getPSI = () => {
+  return axios.get("https://api.data.gov.sg/v1/environment/psi");
+};
+
+// from data.gov.sg
+export const getRainfall = () => {
+  return axios.get("https://api.data.gov.sg/v1/environment/rainfall");
+};
+
+// from data.gov.sg
+export const getTemperature = () => {
+  return axios.get("https://api.data.gov.sg/v1/environment/air-temperature");
 };

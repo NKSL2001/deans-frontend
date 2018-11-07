@@ -3,6 +3,8 @@ import { combineReducers } from "redux";
 
 const initialState = {
   staff: {
+    currentUser: null,
+    isAdmin: false,
     flag: false,
     userList: null
   },
@@ -13,7 +15,11 @@ const initialState = {
   },
   common: {
     flag: false,
-    crises: null
+    crises: null,
+    psi: null,
+    humidity: null,
+    temperature: null,
+    rainfall: null
   },
   modal: {
     modalType: null,
@@ -71,10 +77,34 @@ const staff = (state = initialState.staff, action) => {
         ...state,
         flag: false
       };
+    case actionTypes.USER_LOGOUT_REQUESTED:
+      return {
+        ...state,
+        flag: false // reset flag
+      };
+    case actionTypes.USER_LOGOUT_SUCCESS:
+      localStorage.removeItem("token"); // remove token
+      return {
+        ...state,
+        currentUser: null,
+        isAdmin: false,
+        flag: true
+      };
+    case actionTypes.USER_LOGOUT_FAILURE:
+      return {
+        ...state,
+        flag: false
+      };
     case actionTypes.FETCH_USER_LIST_SUCCESS:
       return {
         ...state,
         userList: payload
+      };
+    case actionTypes.FETCH_CURRENT_USER_SUCCESS:
+      return {
+        ...state,
+        currentUser: payload.username,
+        isAdmin: payload.is_staff
       };
     case actionTypes.RESOLVE_CRISIS_REQUESTED:
       return {
@@ -166,6 +196,21 @@ const staff = (state = initialState.staff, action) => {
         ...state,
         flag: false
       };
+    case actionTypes.EDIT_SITE_SETTINGS_REQUESTED:
+      return {
+        ...state,
+        flag: false
+      };
+    case actionTypes.EDIT_SITE_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        flag: true
+      };
+    case actionTypes.EDIT_SITE_SETTINGS_FAILURE:
+      return {
+        ...state,
+        flag: false
+      };
     default:
       return state;
   }
@@ -178,6 +223,33 @@ const common = (state = initialState.common, action) => {
       return {
         ...state,
         crises: payload
+      };
+    case actionTypes.FETCH_PSI_SUCCESS:
+      return {
+        ...state,
+        psi: {
+          status: payload && payload.api_info && payload.api_info.status,
+          hourly:
+            payload &&
+            payload.items &&
+            payload.items[0].readings.no2_one_hour_max
+        }
+      };
+    case actionTypes.FETCH_HUMIDITY_SUCCESS:
+      return {
+        ...state,
+        humidity: payload && payload.items && payload.items[0].readings[0].value
+      };
+    case actionTypes.FETCH_RAINFALL_SUCCESS:
+      return {
+        ...state,
+        rainfall: payload && payload.items && payload.items[0].readings[0].value
+      };
+    case actionTypes.FETCH_TEMPERATURE_SUCCESS:
+      return {
+        ...state,
+        temperature:
+          payload && payload.items && payload.items[0].readings[0].value
       };
     case actionTypes.REPORT_CRISIS_REQUESTED:
       return {

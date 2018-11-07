@@ -12,7 +12,13 @@ class PageUserCenter extends React.Component {
   }
 
   render() {
-    const { userList, addUser, showEditUserModal, editUser } = this.props;
+    const {
+      userList,
+      addUser,
+      showEditUserModal,
+      editUser,
+      currentUser
+    } = this.props;
     return (
       <div>
         <h1>User Center</h1>
@@ -27,6 +33,7 @@ class PageUserCenter extends React.Component {
             userList={userList || []}
             showEditUserModal={showEditUserModal}
             editUser={editUser}
+            currentUser={currentUser}
           />
         </div>
       </div>
@@ -39,12 +46,14 @@ PageUserCenter.propTypes = {
   editUser: PropTypes.func.isRequired,
   showEditUserModal: PropTypes.func.isRequired,
   userList: PropTypes.array.isRequired,
+  currentUser: PropTypes.string.isRequired,
   getUserList: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   const { staff } = state;
   return {
+    currentUser: staff && staff.currentUser,
     userList: staff && staff.userList
   };
 };

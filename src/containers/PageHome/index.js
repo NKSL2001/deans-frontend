@@ -5,6 +5,9 @@ import { getCrises, fetchTypes } from "@redux/actions";
 import GMap from "@components/GMap";
 import NavBar from "@components/NavBar";
 import Footer from "@components/Footer";
+import RealTimePSI from "@components/RealTimePSI";
+import RealTimeWeather from "@components/RealTimeWeather";
+import RealTimeCrisisStatus from "@components/RealTimeCrisisStatus";
 import ActiveCrisisListTable from "./ActiveCrisisListTable";
 
 import * as styles from "./style.scss";
@@ -23,15 +26,27 @@ class PageHome extends React.Component {
     return (
       <React.Fragment>
         <NavBar />
-        <div className={styles.map}>
-          <GMap crises={this.props.crises || []} />
-        </div>
         <div className={styles.container}>
-          {/* <div className={styles.header}>Home</div> */}
-          <div className={styles.activeCrisisListTableContainer}>
-            <div className={styles.subHeader}>Active Crisis</div>
-            <div className={styles.activeCrisisListTable}>
-              <ActiveCrisisListTable crises={this.props.crises || []} />
+          <div className={styles.left}>
+            <div className={styles.status}>
+              <RealTimePSI />
+            </div>
+            <div className={styles.status}>
+              <RealTimeWeather />
+            </div>
+            <div className={styles.status}>
+              <RealTimeCrisisStatus />
+            </div>
+          </div>
+          <div className={styles.right}>
+            <div className={styles.map}>
+              <GMap crises={this.props.crises || []} />
+            </div>
+            <div className={styles.activeCrisisListTableContainer}>
+              <div className={styles.subHeader}>Active Crisis</div>
+              <div className={styles.activeCrisisListTable}>
+                <ActiveCrisisListTable crises={this.props.crises || []} />
+              </div>
             </div>
           </div>
         </div>

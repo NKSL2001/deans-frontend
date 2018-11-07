@@ -12,12 +12,13 @@
     "start": "webpack-dev-server --watch --config webpack/webpack.dev.js",
     "build": "NODE_ENV=production webpack --config webpack/webpack.prod.js",
     "lint": "eslint --fix src",
-    "test": "echo \"Error: currently no test specified\" && exit 1"
+    "test": "jest"
   },
   "dependencies": {
     "antd": "^3.9.2",
     "axios": "^0.18.0",
     "google-map-react": "^1.0.9",
+    "jest": "^23.6.0",
     "less": "^3.8.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

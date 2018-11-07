@@ -41,6 +41,7 @@ class CrisisReportForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    e.disabled = true;
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const {
@@ -73,11 +74,7 @@ class CrisisReportForm extends React.Component {
         this.props
           .reportCrises(form)
           .then(() => {
-            if (this.props.flag) {
-              alert("Success");
-            } else {
-              alert("Failure");
-            }
+            this.props.setComplete();
           })
           .catch(error => console.log(error));
       }
@@ -271,7 +268,8 @@ CrisisReportForm.propTypes = {
   crisisType: PropTypes.array.isRequired,
   assistanceType: PropTypes.array.isRequired,
   flag: PropTypes.bool.isRequired,
-  reportCrises: PropTypes.func.isRequired
+  reportCrises: PropTypes.func.isRequired,
+  setComplete: PropTypes.func.isRequired
 };
 
 export default Form.create()(CrisisReportForm);
