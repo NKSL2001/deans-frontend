@@ -6,6 +6,7 @@ import * as ROUTES from "src/routes";
 import NavBar from "@components/NavBar";
 import Footer from "@components/Footer";
 import RealTimePSI from "@components/RealTimePSI";
+import RealTimeWeather from "@components/RealTimeWeather";
 import Menu from "./Menu";
 import RealTimeStatus from "./RealTimeStatus";
 import PageDashboard from "./PageDashboard";
@@ -35,6 +36,9 @@ class PageStaff extends React.Component {
             <Menu isAdmin={this.props.isAdmin} />
             <div className={styles.status}>
               <RealTimePSI />
+            </div>
+            <div className={styles.status}>
+              <RealTimeWeather />
             </div>
             <div className={styles.status}>
               <RealTimeStatus
