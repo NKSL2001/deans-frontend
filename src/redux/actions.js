@@ -2,14 +2,9 @@ import * as actionTypes from "./actionTypes";
 import * as api from "@api";
 
 export const startRealTimeCrisisTracking = () => dispatch => {
-  const socket = api.createWebSocket();
-  socket.onerror = () => {
-    console.log("Socket connection error... Try again in 3 secodns");
-    setTimeout(() => {
-      startRealTimeCrisisTracking();
-    }, 3000);
-  };
-  socket.onopen = () => {
+  let socket;
+  const onOpen = () => {
+    console.log("Socket connection established.");
     dispatch({
       type: actionTypes.FETCH_CRISIS_REQUESTED
     });
@@ -27,14 +22,68 @@ export const startRealTimeCrisisTracking = () => dispatch => {
         })
       );
   };
-  socket.onmessage = message => {
-    console.log("Updating...");
+  const onMessage = message => {
+    console.log("Socket received message.");
     const crises = JSON.parse(message && message.data);
     dispatch({
       type: actionTypes.FETCH_CRISIS_SUCCESS,
       payload: crises
     });
   };
+  const onException = () => {
+    console.log("Socket connection error... Try again in 3 seconds.");
+    setTimeout(() => {
+      socket = api.createWebSocket();
+      socket.onerror = onException;
+      socket.onopen = onOpen;
+      socket.onmessage = onMessage;
+      // socket.onclose = onException;
+    }, 3000);
+  };
+
+  socket = api.createWebSocket();
+  socket.onerror = onException;
+  socket.onopen = onOpen;
+  socket.onmessage = onMessage;
+  // socket.onclose = onException;
+  // socket.onerror = () => {
+  //   console.log("Socket connection error... Try again in 3 secodns");
+  //   setTimeout(() => {
+  //     socket = api.createWebSocket();
+  //   }, 3000);
+  // };
+  // socket.onclose = () => {
+  //   console.log("Socket connection error... Try again in 3 secodns");
+  //   setTimeout(() => {
+  //     socket = api.createWebSocket();
+  //   }, 3000);
+  // };
+  // socket.onopen = () => {
+  //   dispatch({
+  //     type: actionTypes.FETCH_CRISIS_REQUESTED
+  //   });
+  //   api
+  //     .getCrises()
+  //     .then(response =>
+  //       dispatch({
+  //         type: actionTypes.FETCH_CRISIS_SUCCESS,
+  //         payload: response.data
+  //       })
+  //     )
+  //     .catch(() =>
+  //       dispatch({
+  //         type: actionTypes.FETCH_CRISIS_FAILURE
+  //       })
+  //     );
+  // };
+  // socket.onmessage = message => {
+  //   console.log("Updating...");
+  //   const crises = JSON.parse(message && message.data);
+  //   dispatch({
+  //     type: actionTypes.FETCH_CRISIS_SUCCESS,
+  //     payload: crises
+  //   });
+  // };
 };
 
 export const startRealTimeConditionTracking = interval => {

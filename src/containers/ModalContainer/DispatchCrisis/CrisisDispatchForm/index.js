@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Select, Button } from "antd";
+import { Form, Select, Button } from "antd";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -63,16 +63,6 @@ class CrisisDispatchForm extends React.Component {
             >
               {createEmergencyAgenciesList(emergencyAgencies)}
             </Select>
-          )}
-        </FormItem>
-        <FormItem {...formItemLayout} label="Note">
-          {getFieldDecorator("note", {
-            rules: [{ required: false }]
-          })(
-            <Input
-              style={{ width: "100%" }}
-              placeholder="Leave emergency agencies a note"
-            />
           )}
         </FormItem>
         <FormItem style={{ marginBottom: 0 }}>
