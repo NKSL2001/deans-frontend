@@ -19,8 +19,8 @@ const CreateNewCrisis = props => {
 
 CreateNewCrisis.propTypes = {
   hideModal: PropTypes.func.isRequired,
-  crisisType: PropTypes.array.isRequired,
-  assistanceType: PropTypes.array.isRequired,
+  crisisType: PropTypes.object.isRequired,
+  assistanceType: PropTypes.object.isRequired,
   reportCrises: PropTypes.func.isRequired,
   getCrises: PropTypes.func.isRequired
 };

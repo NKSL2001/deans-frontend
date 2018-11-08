@@ -56,7 +56,7 @@ const RealTimePSI = props => {
 };
 
 RealTimePSI.propTypes = {
-  psi: PropTypes.object.isRequired
+  psi: PropTypes.object
 };
 
 const mapStateToProps = state => {

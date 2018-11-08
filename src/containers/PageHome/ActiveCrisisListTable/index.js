@@ -10,7 +10,11 @@ const createDataSource = (crisisList, crisisType) =>
     const type = crisis.crisis_type
       .map(val => crisisType && crisisType[val])
       // eslint-disable-next-line react/jsx-key
-      .map(type => <Tag color="purple">{type}</Tag>);
+      .map((type, index) => (
+        <Tag key={index} color="purple">
+          {type}
+        </Tag>
+      ));
     const location = crisis.crisis_location1.replace(/"/g, "");
     const time = (() => {
       const date = new Date(crisis.crisis_time);
@@ -69,9 +73,9 @@ const ActiveCrisisListTable = props => {
 };
 
 ActiveCrisisListTable.propTypes = {
-  crisisType: PropTypes.func.isRequired,
-  assistanceType: PropTypes.func.isRequired,
-  crises: PropTypes.array.isRequired
+  crisisType: PropTypes.object,
+  assistanceType: PropTypes.object,
+  crises: PropTypes.array
 };
 
 export default connect(state => {

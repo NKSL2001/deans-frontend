@@ -9,7 +9,7 @@
   .status {
     position: sticky;
     top: 1rem;
-    margin-top: 0.5rem;
+    margin-top: 2rem;
     background-color: white;
   }
 
@@ -21,7 +21,7 @@
   .left {
     flex: 1;
     margin-right: 2rem;
-    margin-top: 1rem;
+    margin-top: -1rem;
     position: relative;
   }
 
@@ -32,7 +32,7 @@
   }
 
   .map {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     height: 25rem;
     width: 100%;
     // z-index: -1;

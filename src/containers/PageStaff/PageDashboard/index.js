@@ -51,12 +51,12 @@ class PageDashboard extends React.Component {
 }
 
 PageDashboard.propTypes = {
-  crises: PropTypes.array.isRequired,
+  crises: PropTypes.array,
   fetchTypes: PropTypes.func.isRequired,
   getCrises: PropTypes.func.isRequired,
   reportCrises: PropTypes.func.isRequired,
-  crisisType: PropTypes.object.isRequired,
-  assistanceType: PropTypes.object.isRequired,
+  crisisType: PropTypes.object,
+  assistanceType: PropTypes.object,
   showModal: PropTypes.func.isRequired
 };
 

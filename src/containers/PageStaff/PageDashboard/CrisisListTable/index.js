@@ -82,9 +82,11 @@ const createDataSource = (
       const id = crisis.crisis_id;
       const type = crisis.crisis_type
         .map(val => crisisType && crisisType[val])
-        .map(type => (
+        .map((type, index) => (
           // eslint-disable-next-line react/jsx-key
-          <Tag color="purple">{type}</Tag>
+          <Tag key={index} color="purple">
+            {type}
+          </Tag>
         ));
       const location = crisis.crisis_location1.replace(/"/g, "");
       const status = crisis.crisis_status;
@@ -166,10 +168,10 @@ const CrisisListTable = props => {
 
 CrisisListTable.propTypes = {
   flag: PropTypes.bool.isRequired,
-  crises: PropTypes.array.isRequired,
+  crises: PropTypes.array,
   // from redux
-  crisisType: PropTypes.object.isRequired,
-  assistanceType: PropTypes.object.isRequired,
+  crisisType: PropTypes.object,
+  assistanceType: PropTypes.object,
   getCrises: PropTypes.func.isRequired,
   resolveCrisis: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired

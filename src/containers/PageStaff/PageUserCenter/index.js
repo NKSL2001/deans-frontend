@@ -45,8 +45,8 @@ PageUserCenter.propTypes = {
   addUser: PropTypes.func.isRequired,
   editUser: PropTypes.func.isRequired,
   showEditUserModal: PropTypes.func.isRequired,
-  userList: PropTypes.array.isRequired,
-  currentUser: PropTypes.string.isRequired,
+  userList: PropTypes.array,
+  currentUser: PropTypes.string,
   getUserList: PropTypes.func.isRequired
 };
 

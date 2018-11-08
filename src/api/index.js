@@ -143,6 +143,10 @@ export const getCurrentUser = () => {
   });
 };
 
+export const createWebSocket = () => {
+  return new WebSocket("ws://localhost:8000/api/ws/crises/");
+};
+
 // from data.gov.sg
 export const getHumidity = () => {
   return axios.get("https://api.data.gov.sg/v1/environment/relative-humidity");

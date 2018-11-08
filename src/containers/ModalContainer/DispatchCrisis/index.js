@@ -78,8 +78,8 @@ const DispatchCrisis = props => {
 DispatchCrisis.propTypes = {
   hideModal: PropTypes.func.isRequired,
   crisis: PropTypes.object.isRequired,
-  crisisType: PropTypes.func.isRequired,
-  assistanceType: PropTypes.func.isRequired
+  crisisType: PropTypes.func,
+  assistanceType: PropTypes.func
 };
 
 const mapStateToProps = state => {

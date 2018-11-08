@@ -31,7 +31,7 @@ const RealTimeCrisisStatus = props => {
 };
 
 RealTimeCrisisStatus.propTypes = {
-  crises: PropTypes.array.isRequired
+  crises: PropTypes.array
 };
 
 const mapStateToProps = state => {

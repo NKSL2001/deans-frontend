@@ -4,28 +4,6 @@ import PropTypes from "prop-types";
 import GoogleMapReact from "google-map-react";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
-// TODO: get it from redux
-// const crisisList = [
-//   {
-//     lat: 1.3564,
-//     lng: 103.8977,
-//     type: "Fire",
-//     description: "Fire in the hole!"
-//   },
-//   {
-//     lat: 1.3554,
-//     lng: 103.7677,
-//     type: "Injury",
-//     description: ""
-//   },
-//   {
-//     lat: 1.3454,
-//     lng: 103.9677,
-//     type: "Injury",
-//     description: ""
-//   }
-// ];
-
 class GMap extends Component {
   state = {
     crises: {}
@@ -37,7 +15,6 @@ class GMap extends Component {
 
   componentDidUpdate = prevProps => {
     if (prevProps.crises !== this.props.crises) {
-      console.log("updated crises", this.props.crises);
       this.loadCrisesIntoState();
     }
   };
@@ -47,14 +24,13 @@ class GMap extends Component {
     if (Object.keys(crises).length === 0) return null;
     return Object.keys(crises).map(index => {
       const crisis = crises[index];
-      const id = crisis.id;
       const lat = crisis.lat;
       const lng = crisis.lng;
       const type = crisis.type;
       const description = crisis.description;
       return (
         <Marker
-          key={id}
+          key={index}
           lat={lat}
           lng={lng}
           type={type}

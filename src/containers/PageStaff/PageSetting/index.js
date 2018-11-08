@@ -204,11 +204,11 @@ PageSetting.propTypes = {
   addCrisisType: PropTypes.func.isRequired,
   addAssistanceType: PropTypes.func.isRequired,
   fetchTypes: PropTypes.func.isRequired,
-  crisisType: PropTypes.object.isRequired,
-  assistanceType: PropTypes.object.isRequired,
+  crisisType: PropTypes.object,
+  assistanceType: PropTypes.object,
   getEmergencyAgencies: PropTypes.func.isRequired,
   addEmergencyAgencies: PropTypes.func.isRequired,
-  emergencyAgencies: PropTypes.array.isRequired,
+  emergencyAgencies: PropTypes.array,
   editSiteSettings: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired
 };

@@ -60,7 +60,7 @@ const EmergencyAgenciesTable = props => {
 };
 
 EmergencyAgenciesTable.propTypes = {
-  emergencyAgencies: PropTypes.array.isRequired,
+  emergencyAgencies: PropTypes.array,
   showModal: PropTypes.func.isRequired,
   editPhoneNumber: PropTypes.func.isRequired
 };

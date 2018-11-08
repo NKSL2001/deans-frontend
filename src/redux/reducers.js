@@ -243,7 +243,8 @@ const common = (state = initialState.common, action) => {
     case actionTypes.FETCH_RAINFALL_SUCCESS:
       return {
         ...state,
-        rainfall: payload && payload.items && payload.items[0].readings[23].value
+        rainfall:
+          payload && payload.items && payload.items[0].readings[23].value
       };
     case actionTypes.FETCH_TEMPERATURE_SUCCESS:
       return {

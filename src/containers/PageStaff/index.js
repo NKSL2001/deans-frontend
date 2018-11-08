@@ -76,12 +76,12 @@ class PageStaff extends React.Component {
 }
 
 PageStaff.propTypes = {
-  crises: PropTypes.array.isRequired,
+  crises: PropTypes.array,
   fetchTypes: PropTypes.func.isRequired,
   getCrises: PropTypes.func.isRequired,
-  crisisType: PropTypes.object.isRequired,
+  crisisType: PropTypes.object,
   isAdmin: PropTypes.bool.isRequired,
-  assistanceType: PropTypes.object.isRequired
+  assistanceType: PropTypes.object
 };
 
 const mapStateToProps = state => {
