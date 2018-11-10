@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { dispatchCrisis } from "@redux/actions";
 import PropTypes from "prop-types";
 import Modal from "antd/lib/modal";
 import CrisisDispatchForm from "./CrisisDispatchForm";
@@ -9,6 +10,7 @@ const DispatchCrisis = props => {
   const {
     your_name,
     mobile_number,
+    crisis_id,
     crisis_location1,
     crisis_location2,
     crisis_time,
@@ -69,7 +71,12 @@ const DispatchCrisis = props => {
         </div>
       </div>
       <div className={styles.crisisDispatchForm}>
-        <CrisisDispatchForm />
+        <CrisisDispatchForm
+          crisisId={crisis_id}
+          emergencyAgencies={props.emergencyAgencies}
+          dispatchCrisis={props.dispatchCrisis}
+          hideModal={props.hideModal}
+        />
       </div>
     </Modal>
   );
@@ -77,17 +84,28 @@ const DispatchCrisis = props => {
 
 DispatchCrisis.propTypes = {
   hideModal: PropTypes.func.isRequired,
-  crisis: PropTypes.object.isRequired,
-  crisisType: PropTypes.func,
-  assistanceType: PropTypes.func
+  dispatchCrisis: PropTypes.func.isRequired,
+  crisis: PropTypes.object,
+  crisisType: PropTypes.object,
+  assistanceType: PropTypes.object,
+  emergencyAgencies: PropTypes.array
 };
 
 const mapStateToProps = state => {
   const { system } = state;
   return {
     crisisType: system && system.crisisType,
-    assistanceType: system && system.assistanceType
+    assistanceType: system && system.assistanceType,
+    emergencyAgencies: system && system.emergencyAgencies
   };
 };
 
-export default connect(mapStateToProps)(DispatchCrisis);
+const mapDispatchToProps = dispatch => ({
+  dispatchCrisis: (id, phoneNumberToNotify) =>
+    dispatch(dispatchCrisis(id, phoneNumberToNotify))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DispatchCrisis);

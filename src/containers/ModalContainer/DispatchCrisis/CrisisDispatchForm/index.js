@@ -1,17 +1,9 @@
 import React from "react";
-import { Form, Select, Button } from "antd";
+import PropTypes from "prop-types";
+import { Form, Select, Button, message } from "antd";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-
-const emergencyAgencies = ["Ambulance", "Fire Brigade", "Police"];
-
-const createEmergencyAgenciesList = arr =>
-  arr.map((value, index) => (
-    <Option value={value} key={index}>
-      {value}
-    </Option>
-  ));
 
 class CrisisDispatchForm extends React.Component {
   state = {
@@ -19,11 +11,27 @@ class CrisisDispatchForm extends React.Component {
     autoCompleteResult: []
   };
 
+  createEmergencyAgenciesList = arr =>
+    arr.map((val, index) => (
+      <Option value={val.phone_number} key={index}>
+        {val.agency}
+      </Option>
+    ));
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+        const { agencies } = values;
+        const phoneNumbers = "[" + agencies.join(", ") + "]";
+        this.props
+          .dispatchCrisis(this.props.crisisId, phoneNumbers)
+          .then(() => {
+            message.success("Dispatched!");
+            this.props.hideModal();
+          })
+          .catch(() => null);
       }
     });
   };
@@ -61,7 +69,7 @@ class CrisisDispatchForm extends React.Component {
               mode="multiple"
               placeholder="Select emergency agencies to notify"
             >
-              {createEmergencyAgenciesList(emergencyAgencies)}
+              {this.createEmergencyAgenciesList(this.props.emergencyAgencies)}
             </Select>
           )}
         </FormItem>
@@ -74,5 +82,12 @@ class CrisisDispatchForm extends React.Component {
     );
   }
 }
+
+CrisisDispatchForm.propTypes = {
+  hideModal: PropTypes.func.isRequired,
+  crisisId: PropTypes.number.isRequired,
+  emergencyAgencies: PropTypes.array,
+  dispatchCrisis: PropTypes.func.isRequired
+};
 
 export default Form.create()(CrisisDispatchForm);

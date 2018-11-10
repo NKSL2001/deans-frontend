@@ -31,80 +31,25 @@ export const startRealTimeCrisisTracking = () => dispatch => {
     });
   };
   const onException = () => {
-    console.log("Socket connection error... Try again in 3 seconds.");
+    console.log("Socket connection error... Try again in 10 seconds.");
     setTimeout(() => {
       socket = api.createWebSocket();
       socket.onerror = onException;
       socket.onopen = onOpen;
       socket.onmessage = onMessage;
       // socket.onclose = onException;
-    }, 3000);
+    }, 10000);
   };
 
   socket = api.createWebSocket();
   socket.onerror = onException;
   socket.onopen = onOpen;
   socket.onmessage = onMessage;
-  // socket.onclose = onException;
-  // socket.onerror = () => {
-  //   console.log("Socket connection error... Try again in 3 secodns");
-  //   setTimeout(() => {
-  //     socket = api.createWebSocket();
-  //   }, 3000);
-  // };
-  // socket.onclose = () => {
-  //   console.log("Socket connection error... Try again in 3 secodns");
-  //   setTimeout(() => {
-  //     socket = api.createWebSocket();
-  //   }, 3000);
-  // };
-  // socket.onopen = () => {
-  //   dispatch({
-  //     type: actionTypes.FETCH_CRISIS_REQUESTED
-  //   });
-  //   api
-  //     .getCrises()
-  //     .then(response =>
-  //       dispatch({
-  //         type: actionTypes.FETCH_CRISIS_SUCCESS,
-  //         payload: response.data
-  //       })
-  //     )
-  //     .catch(() =>
-  //       dispatch({
-  //         type: actionTypes.FETCH_CRISIS_FAILURE
-  //       })
-  //     );
-  // };
-  // socket.onmessage = message => {
-  //   console.log("Updating...");
-  //   const crises = JSON.parse(message && message.data);
-  //   dispatch({
-  //     type: actionTypes.FETCH_CRISIS_SUCCESS,
-  //     payload: crises
-  //   });
-  // };
 };
 
 export const startRealTimeConditionTracking = interval => {
   return async dispatch => {
     const job = () => {
-      // dispatch({
-      //   type: actionTypes.FETCH_CRISIS_REQUESTED
-      // });
-      // api
-      //   .getCrises()
-      //   .then(response =>
-      //     dispatch({
-      //       type: actionTypes.FETCH_CRISIS_SUCCESS,
-      //       payload: response.data
-      //     })
-      //   )
-      //   .catch(() =>
-      //     dispatch({
-      //       type: actionTypes.FETCH_CRISIS_FAILURE
-      //     })
-      //   );
       api
         .getPSI()
         .then(response =>
@@ -195,6 +140,22 @@ export const fetchTypes = () => {
       .catch(() =>
         dispatch({
           type: actionTypes.FETCH_ASSISTANCE_TYPE_FAILURE
+        })
+      );
+    dispatch({
+      type: actionTypes.FETCH_EMERGENCY_AGENCIES_REQUESTED
+    });
+    api
+      .getEmergencyAgencies()
+      .then(response =>
+        dispatch({
+          type: actionTypes.FETCH_EMERGENCY_AGENCIES_SUCCESS,
+          payload: response.data
+        })
+      )
+      .catch(() =>
+        dispatch({
+          type: actionTypes.FETCH_EMERGENCY_AGENCIES_FAILURE
         })
       );
   };
@@ -434,6 +395,26 @@ export const getCurrentUser = () => {
       );
   };
 };
+
+export const dispatchCrisis = (id, phoneNumberToNotify) => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.DISPATCH_CRISIS_REQUESTED
+    });
+    api
+      .dispatchCrisis(id, phoneNumberToNotify)
+      .then(() =>
+        dispatch({
+          type: actionTypes.DISPATCH_CRISIS_SUCCESS
+        })
+      )
+      .catch(() =>
+        dispatch({
+          type: actionTypes.DISPATCH_CRISIS_FAILURE
+        })
+      );
+  };
+}
 
 export const showModal = (modalType, modalProps) => {
   return {

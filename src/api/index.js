@@ -54,11 +54,12 @@ export const getAssistanceType = () => {
   return axios.get("/crisisassistance/");
 };
 
-export const dispatchCrisis = id => {
+export const dispatchCrisis = (id, phoneNumberToNotify) => {
   return axios.put(
     "/crises/update-partial/" + id + "/",
     {
-      crisis_status: "DP"
+      crisis_status: "DP",
+      phone_number_to_notify: phoneNumberToNotify
     },
     {
       headers: {
@@ -69,7 +70,6 @@ export const dispatchCrisis = id => {
 };
 
 export const resolveCrisis = (id, undo) => {
-  console.log("in action", id, undo);
   return axios.put(
     "/crises/update-partial/" + id + "/",
     {
