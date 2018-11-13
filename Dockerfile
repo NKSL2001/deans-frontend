@@ -7,7 +7,7 @@
 
 FROM node:8.11.1
 # you have to build before copy
-COPY ./dist /var/www
+COPY . /var/www
 WORKDIR /var/www
 RUN yarn install
 RUN yarn build
