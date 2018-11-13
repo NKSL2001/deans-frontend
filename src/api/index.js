@@ -127,6 +127,14 @@ export const addEmergencyAgencies = form => {
   });
 };
 
+export const editEmergencyAgencies = (id, form) => {
+  return axios.put("/emergencyagencies/update-partial/" + id + "/", form, {
+    headers: {
+      Authorization: `Token ${_getAuthToken()}`
+    }
+  });
+};
+
 export const editSiteSettings = form => {
   return axios.post("/sitesettings/", form, {
     headers: {

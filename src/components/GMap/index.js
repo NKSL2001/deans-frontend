@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Marker from "@components/Marker";
 import PropTypes from "prop-types";
 import GoogleMapReact from "google-map-react";
@@ -21,12 +22,14 @@ class GMap extends Component {
 
   createMarker = () => {
     const { crises } = this.state;
+    const { crisisType } = this.props;
     if (Object.keys(crises).length === 0) return null;
     return Object.keys(crises).map(index => {
       const crisis = crises[index];
       const lat = crisis.lat;
       const lng = crisis.lng;
       const type = crisis.type;
+      const location = crisis.location;
       const description = crisis.description;
       return (
         <Marker
@@ -34,6 +37,8 @@ class GMap extends Component {
           lat={lat}
           lng={lng}
           type={type}
+          location={location}
+          crisisType={crisisType || []}
           description={description}
         />
       );
@@ -55,6 +60,7 @@ class GMap extends Component {
               [id]: {
                 lat: location && location["lat"],
                 lng: location && location["lng"],
+                location: crisis.crisis_location1,
                 type: type,
                 description: description
               }
@@ -84,7 +90,15 @@ class GMap extends Component {
 }
 
 GMap.propTypes = {
-  crises: PropTypes.array.isRequired
+  crises: PropTypes.array.isRequired,
+  crisisType: PropTypes.array
 };
 
-export default GMap;
+const mapStateToProps = state => {
+  const { system } = state;
+  return {
+    crisisType: system && system.crisisType
+  };
+};
+
+export default connect(mapStateToProps)(GMap);

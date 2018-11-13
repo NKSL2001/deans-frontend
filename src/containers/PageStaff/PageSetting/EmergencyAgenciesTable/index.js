@@ -25,6 +25,7 @@ const EmergencyAgenciesTable = props => {
   const createDataSource = () => {
     const { emergencyAgencies, editPhoneNumber } = props;
     return emergencyAgencies.map(agency => {
+      const id = agency.agency_id;
       const name = agency.agency;
       const phoneNumber = agency.phone_number;
       return {
@@ -37,7 +38,8 @@ const EmergencyAgenciesTable = props => {
               onClick={() =>
                 props.showModal("SINGLE_INPUT", {
                   title: "EDIT PHONE NUMBER",
-                  handler: phoneNumber => editPhoneNumber(name, phoneNumber)
+                  defaultValue: phoneNumber,
+                  handler: phoneNumber => editPhoneNumber(id, phoneNumber)
                 })
               }
             >

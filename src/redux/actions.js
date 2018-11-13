@@ -345,6 +345,27 @@ export const getEmergencyAgencies = () => {
   };
 };
 
+export const editEmergencyAgencies = (id, form) => {
+  return async dispatch => {
+    dispatch({
+      type: actionTypes.EDIT_EMERGENCY_AGENCIES_REQUESTED
+    });
+    await api
+      .editEmergencyAgencies(id, form)
+      .then(response =>
+        dispatch({
+          type: actionTypes.EDIT_EMERGENCY_AGENCIES_SUCCESS,
+          payload: response.data
+        })
+      )
+      .catch(() =>
+        dispatch({
+          type: actionTypes.EDIT_EMERGENCY_AGENCIES_FAILURE
+        })
+      );
+  };
+};
+
 export const addEmergencyAgencies = form => {
   return async dispatch => {
     dispatch({
@@ -414,7 +435,7 @@ export const dispatchCrisis = (id, phoneNumberToNotify) => {
         })
       );
   };
-}
+};
 
 export const showModal = (modalType, modalProps) => {
   return {

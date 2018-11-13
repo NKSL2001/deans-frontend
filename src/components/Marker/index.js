@@ -6,14 +6,13 @@ import pin from "@assets/pin.png";
 import * as styles from "./style.scss";
 
 const Marker = props => {
+  const { crisisType, location } = props;
   return (
     <div lat={props.lat} lng={props.lng}>
       <Popover
         placement="top"
-        title={props.type.join(", ")}
-        content={
-          props.description === "" ? "No description" : props.description
-        }
+        title={props.type.map(type => crisisType[type]).join(", ")}
+        content={location.replace(/"/g, "")}
       >
         {/* <Icon className={styles.container} type="warning" theme="filled" /> */}
         <img className={styles.container} src={pin} width="35" />
@@ -25,6 +24,8 @@ const Marker = props => {
 Marker.propTypes = {
   lat: PropTypes.number.isRequired,
   lng: PropTypes.number.isRequired,
+  location: PropTypes.string.isRequired,
+  crisisType: PropTypes.array,
   type: PropTypes.array.isRequired,
   description: PropTypes.string
 };

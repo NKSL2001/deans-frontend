@@ -211,6 +211,21 @@ const staff = (state = initialState.staff, action) => {
         ...state,
         flag: false
       };
+    case actionTypes.EDIT_EMERGENCY_AGENCIES_REQUESTED:
+      return {
+        ...state,
+        flag: false
+      };
+    case actionTypes.EDIT_EMERGENCY_AGENCIES_SUCCESS:
+      return {
+        ...state,
+        flag: true
+      };
+    case actionTypes.EDIT_EMERGENCY_AGENCIES_FAILURE:
+      return {
+        ...state,
+        flag: false
+      };
     default:
       return state;
   }

@@ -22,6 +22,11 @@ class PageHome extends React.Component {
     this.props.getCrises();
   };
 
+  filterCrises = crises => {
+    // display only dispatched crises
+    return crises.filter(crisis => crisis.crisis_status === "DP");
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -40,12 +45,14 @@ class PageHome extends React.Component {
           </div>
           <div className={styles.right}>
             <div className={styles.map}>
-              <GMap crises={this.props.crises || []} />
+              <GMap crises={this.filterCrises(this.props.crises || [])} />
             </div>
             <div className={styles.activeCrisisListTableContainer}>
               <div className={styles.subHeader}>Active Crisis</div>
               <div className={styles.activeCrisisListTable}>
-                <ActiveCrisisListTable crises={this.props.crises || []} />
+                <ActiveCrisisListTable
+                  crises={this.filterCrises(this.props.crises || [])}
+                />
               </div>
             </div>
           </div>

@@ -20,7 +20,7 @@ class PageDashboard extends React.Component {
   render() {
     return (
       <div>
-        <h1>Dashboard</h1>
+        <h1>Call Center Dashboard</h1>
         <div className={styles.map}>
           <GMap crises={this.props.crises || []} />
         </div>

@@ -9,9 +9,10 @@ import {
   getEmergencyAgencies,
   addEmergencyAgencies,
   editSiteSettings,
+  editEmergencyAgencies,
   showModal
 } from "@redux/actions";
-import { Button, Input, Tag, message } from "antd";
+import { Button, Tag, message } from "antd";
 import EmergencyAgenciesTable from "./EmergencyAgenciesTable";
 import * as styles from "./style.scss";
 
@@ -116,6 +117,19 @@ class PageSetting extends React.Component {
       .catch(() => message.error("Error!"));
   };
 
+  editEmergencyAgencies = (id, phoneNumber) => {
+    const form = new FormData();
+    form.append("agency_id", id);
+    form.append("phone_number", phoneNumber);
+    this.props
+      .editEmergencyAgencies(id, form)
+      .then(() => {
+        message.success("Success!");
+        this.props.getEmergencyAgencies();
+      })
+      .catch(() => message.error("Error!"));
+  };
+
   render() {
     return (
       <div>
@@ -167,10 +181,10 @@ class PageSetting extends React.Component {
           <EmergencyAgenciesTable
             showModal={this.props.showModal}
             emergencyAgencies={this.props.emergencyAgencies || []}
-            editPhoneNumber={this.addEmergencyAgencies}
+            editPhoneNumber={this.editEmergencyAgencies}
           />
         </div>
-        <div className={styles.subHeader}>
+        {/* <div className={styles.subHeader}>
           <div>Summary Reporting Email</div>
           <Button
             type="primary"
@@ -185,7 +199,7 @@ class PageSetting extends React.Component {
             defaultValue="prime-minister@gmail.com"
             onChange={this.handleEmailChange}
           />
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -208,6 +222,7 @@ PageSetting.propTypes = {
   assistanceType: PropTypes.object,
   getEmergencyAgencies: PropTypes.func.isRequired,
   addEmergencyAgencies: PropTypes.func.isRequired,
+  editEmergencyAgencies: PropTypes.func.isRequired,
   emergencyAgencies: PropTypes.array,
   editSiteSettings: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired
@@ -219,6 +234,8 @@ const mapDispatchToProps = dispatch => ({
   fetchTypes: () => dispatch(fetchTypes()),
   getEmergencyAgencies: () => dispatch(getEmergencyAgencies()),
   addEmergencyAgencies: form => dispatch(addEmergencyAgencies(form)),
+  editEmergencyAgencies: (id, form) =>
+    dispatch(editEmergencyAgencies(id, form)),
   editSiteSettings: form => dispatch(editSiteSettings(form)),
   showModal: (modalType, modalProps) =>
     dispatch(showModal(modalType, modalProps))

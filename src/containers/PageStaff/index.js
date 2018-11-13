@@ -9,7 +9,7 @@ import RealTimePSI from "@components/RealTimePSI";
 import RealTimeWeather from "@components/RealTimeWeather";
 import Menu from "./Menu";
 import RealTimeStatus from "./RealTimeStatus";
-import PageDashboard from "./PageDashboard";
+import PageCallCenter from "./PageCallCenter";
 import PageUserCenter from "./PageUserCenter";
 import PageSetting from "./PageSetting";
 import { fetchTypes, getCrises } from "@redux/actions";
@@ -52,7 +52,7 @@ class PageStaff extends React.Component {
               <Route
                 exact
                 path={ROUTES.ROUTE_DASHBOARD}
-                component={PageDashboard}
+                component={PageCallCenter}
               />
               <Route
                 exact
@@ -65,7 +65,7 @@ class PageStaff extends React.Component {
                 component={PageSetting}
               />
               {/* fallback */}
-              <Route path={ROUTES.ROUTE_STAFF} component={PageDashboard} />
+              <Route path={ROUTES.ROUTE_STAFF} component={PageCallCenter} />
             </Switch>
           </div>
         </div>

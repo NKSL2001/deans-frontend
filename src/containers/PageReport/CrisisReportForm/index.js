@@ -135,7 +135,7 @@ class CrisisReportForm extends React.Component {
                 whitespace: true
               }
             ]
-          })(<Input />)}
+          })(<Input placeholder="Enter your name..." />)}
         </FormItem>
         <FormItem {...formItemLayout} label="Mobile Number">
           {getFieldDecorator("phone", {

@@ -114,13 +114,13 @@ const createDataSource = (
         ),
         action: (
           <div className={styles.actions}>
-            <Button
+            {/* <Button
               disabled={status === "RS"}
               type="dashed"
               onClick={() => editCrisis(crisis)}
             >
               Edit
-            </Button>
+            </Button> */}
             <Button
               disabled={status === "RS"}
               onClick={() => dispatchCrisis(crisis)}

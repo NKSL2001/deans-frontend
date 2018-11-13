@@ -19,7 +19,7 @@ class _Form extends React.Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator, defaultValue } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormItem>
@@ -29,6 +29,7 @@ class _Form extends React.Component {
             <Input
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
               type="text"
+              value={defaultValue}
               placeholder="Input values..."
             />
           )}
@@ -49,13 +50,14 @@ class _Form extends React.Component {
 
 _Form.propTypes = {
   form: PropTypes.object.isRequired,
+  defaultValue: PropTypes.string,
   handler: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired
 };
 
 const SingleInput = props => {
   const EmbedForm = Form.create()(_Form);
-  const { handler, hideModal } = props;
+  const { handler, hideModal, defaultValue } = props;
   return (
     <Modal
       centered
@@ -64,7 +66,11 @@ const SingleInput = props => {
       onCancel={props.hideModal}
       footer={null}
     >
-      <EmbedForm handler={handler} hideModal={hideModal} />
+      <EmbedForm
+        handler={handler}
+        hideModal={hideModal}
+        defaultValue={defaultValue}
+      />
     </Modal>
   );
 };
@@ -72,6 +78,7 @@ const SingleInput = props => {
 SingleInput.propTypes = {
   hideModal: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
   handler: PropTypes.func.isRequired
 };
 
