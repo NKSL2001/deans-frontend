@@ -422,7 +422,7 @@ export const dispatchCrisis = (id, phoneNumberToNotify) => {
     dispatch({
       type: actionTypes.DISPATCH_CRISIS_REQUESTED
     });
-    api
+    await api
       .dispatchCrisis(id, phoneNumberToNotify)
       .then(() =>
         dispatch({

@@ -17,12 +17,16 @@ class PageDashboard extends React.Component {
     this.props.getCrises();
   };
 
+  filterCrises = crises => {
+    return crises.filter(crisis => crisis.crisis_status !== "RS");
+  };
+
   render() {
     return (
       <div>
         <h1>Call Center Dashboard</h1>
         <div className={styles.map}>
-          <GMap crises={this.props.crises || []} />
+          <GMap crises={this.filterCrises(this.props.crises || [])} />
         </div>
         <div className={styles.subHeader}>
           <div className={styles.item}>Crisis List</div>
