@@ -19,25 +19,28 @@ class PageLogin extends React.Component {
   };
 
   render() {
-    if (this.state.redirect) return <Redirect to="/staff/dashboard" />;
-    return (
-      <React.Fragment>
-        <NavBar />
-        <div className={styles.container}>
-          <div className={styles.innerContainer}>
-            <div className={styles.header}>Staff Login</div>
-            <div className={styles.form}>
-              <LoginForm
-                setRedirect={this.setRedirect}
-                userLogin={this.props.userLogin}
-                flag={this.props.flag}
-              />
+    if (this.state.redirect) {
+      return <Redirect to="/staff/dashboard" />;
+    } else {
+      return (
+        <React.Fragment>
+          <NavBar />
+          <div className={styles.container}>
+            <div className={styles.innerContainer}>
+              <div className={styles.header}>Staff Login</div>
+              <div className={styles.form}>
+                <LoginForm
+                  setRedirect={this.setRedirect}
+                  userLogin={this.props.userLogin}
+                  flag={this.props.flag}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <Footer />
-      </React.Fragment>
-    );
+          <Footer />
+        </React.Fragment>
+      );
+    }
   }
 }
 
