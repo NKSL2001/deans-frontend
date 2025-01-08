@@ -5,6 +5,7 @@ axios.defaults.timeout = 5000;
 
 const _getCSRFToken = () => {
   const cookies = document.cookie && document.cookie.split("; ");
+  if (!cookies) return "";
   let csrftoken = "";
   cookies.forEach(cookie => {
     if (cookie.slice(0, 9) === "csrftoken") {
